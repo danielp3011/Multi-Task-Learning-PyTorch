@@ -17,7 +17,7 @@ class MyPath(object):
     """
     @staticmethod
     def db_root_dir(database=''):
-        db_root = '/path/to/databases/'
+        db_root = '../../data2/yd/datasets/PASCAL_MT/'
         db_names = {'PASCAL_MT', 'NYUD_MT'}
 
         if database in db_names:
