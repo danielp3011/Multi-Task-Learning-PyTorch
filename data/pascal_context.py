@@ -169,7 +169,10 @@ class PASCALContext(data.Dataset):
                 self.semsegs.append(_semseg)
 
                 # Human Parts
-                _human_part = os.path.join(self.root, part_gt_dir, line + ".mat")
+                _human_part = os.path.join(self.root, part_gt_dir, line + ".mat")  
+                print("root: ", self.root) 
+                print("part gt dir: ", part_gt_dir)
+                print("Human parts: ", _human_part)
                 assert os.path.isfile(_human_part)
                 self.parts.append(_human_part)
 

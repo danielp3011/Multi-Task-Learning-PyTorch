@@ -197,10 +197,11 @@ def get_transformations(p):
 def get_train_dataset(p, transforms):
     """ Return the train dataset """
 
-    db_name = p['train_db_name']
+    db_name = p['train_db_name'] 
+    print("DB NAME: ", db_name)
     print('Preparing train loader for db: {}'.format(db_name))
 
-    if db_name == 'PASCALContext':
+    if db_name == 'PASCALContext': 
         from data.pascal_context import PASCALContext
         database = PASCALContext(split=['train'], transform=transforms, retname=True,
                                           do_semseg='semseg' in p.ALL_TASKS.NAMES,
@@ -208,7 +209,7 @@ def get_train_dataset(p, transforms):
                                           do_normals='normals' in p.ALL_TASKS.NAMES,
                                           do_sal='sal' in p.ALL_TASKS.NAMES,
                                           do_human_parts='human_parts' in p.ALL_TASKS.NAMES,
-                                          overfit=p['overfit'])
+                                          overfit=p['overfit']) 
 
     elif db_name == 'NYUD':
         from data.nyud import NYUD_MT
