@@ -169,18 +169,15 @@ class PASCALContext(data.Dataset):
                 self.semsegs.append(_semseg)
 
                 # Human Parts
-                _human_part = os.path.join(self.root, part_gt_dir, line + ".mat")  
-                print("root: ", self.root) 
-                print("part gt dir: ", part_gt_dir)
-                print("Human parts: ", _human_part)
+                _human_part = os.path.join(part_gt_dir, line + ".mat")  # issue: self.root and part_gt_dir is the same and will be joined 
                 assert os.path.isfile(_human_part)
                 self.parts.append(_human_part)
 
-                _normal = os.path.join(self.root, _normal_gt_dir, line + ".png")
+                _normal = os.path.join(_normal_gt_dir, line + ".png")  # self.root, 
                 assert os.path.isfile(_normal)
                 self.normals.append(_normal)
 
-                _sal = os.path.join(self.root, _sal_gt_dir, line + ".png")
+                _sal = os.path.join(_sal_gt_dir, line + ".png")  # self.root, 
                 assert os.path.isfile(_sal)
                 self.sals.append(_sal)
 

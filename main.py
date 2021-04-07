@@ -83,7 +83,8 @@ def main():
 
     else:
         print(colored('No checkpoint file at {}'.format(p['checkpoint']), 'blue'))
-        start_epoch = 0
+        start_epoch = 0 
+        print("P after predictions: ", p) 
         save_model_predictions(p, val_dataloader, model)
         best_result = eval_all_results(p)
     
