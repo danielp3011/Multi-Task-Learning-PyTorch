@@ -32,6 +32,15 @@ def main():
     # Retrieve config file
     cv2.setNumThreads(0)
     p = create_config(args.config_env, args.config_exp)
+
+    ######### Change paths for result savings #################
+    folder_name = "mti_net_test"
+    ##########################################################'
+    p["output_dir"] = "/home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name 
+    p["save_dir"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name + "/results"
+    p["checkpoint"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name + "/checkpoint.pth.tar"
+    p["best_model"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name + "/best_model.pth.tar"
+
     sys.stdout = Logger(os.path.join(p['output_dir'], 'log_file.txt'))
     print(colored(p, 'red'))
 

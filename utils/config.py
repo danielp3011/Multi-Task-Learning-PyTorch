@@ -94,8 +94,6 @@ def parse_task_dictionary(db_name, task_dictionary):
 def create_config(env_file, exp_file):
     
     # Read the files 
-    print("2l3k: ", env_file) 
-    print("slka: ", exp_file)
     with open(env_file, 'r') as stream: 
         print("1: ", stream) 
         root_dir = yaml.safe_load(stream)['root_dir']
@@ -176,26 +174,32 @@ def create_config(env_file, exp_file):
     # Overfitting (Useful for debugging -> Overfit on small partition of the data)
     if not 'overfit' in cfg.keys():
         cfg['overfit'] = False
-
     # Determine output directory
     if cfg['setup'] == 'single_task':
         output_dir = os.path.join(root_dir, cfg['train_db_name'], cfg['backbone'], cfg['setup'])
         output_dir = os.path.join(output_dir, cfg.TASKS.NAMES[0])
-
     elif cfg['setup'] == 'multi_task':
-        if cfg['model'] == 'baseline':
-            output_dir = os.path.join(root_dir, cfg['train_db_name'], cfg['backbone'], 'multi_task_baseline')
+        if cfg['model'] == 'baseline': 
+            output_dir = os.path.join(root_dir, cfg['train_db_name'], cfg['backbone'], 'multi_task_baseline') 
         else:
             output_dir = os.path.join(root_dir, cfg['train_db_name'], cfg['backbone'], cfg['model'])
+            print("OuT: ", output_dir)
     else:
         raise NotImplementedError
         
 
     cfg['root_dir'] = root_dir
-    cfg['output_dir'] = output_dir
-    cfg['save_dir'] = os.path.join(output_dir, 'results')
+    # cfg['output_dir'] = output_dir
+    # cfg['save_dir'] = os.path.join(output_dir, 'results')
+    ######### Change paths for result savings #################
+    folder_name = "mti_net_test" 
+    ##########################################################
+    cfg["output_dir"] = "/home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name 
+    cfg["save_dir"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name + "/results"
+    
     cfg['checkpoint'] = os.path.join(output_dir, 'checkpoint.pth.tar')
     cfg['best_model'] = os.path.join(output_dir, 'best_model.pth.tar')
     mkdir_if_missing(cfg['output_dir'])
-    mkdir_if_missing(cfg['save_dir'])
+    mkdir_if_missing(cfg['save_dir']) 
+    print("CFG : ", cfg)
     return cfg
