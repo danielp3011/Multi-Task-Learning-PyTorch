@@ -20,6 +20,12 @@ from evaluation.evaluate_utils import eval_model, validate_results, save_model_p
                                     eval_all_results
 from termcolor import colored
 
+#######
+device = torch.device("cuda:1")
+
+#######
+
+
 # Parser
 parser = argparse.ArgumentParser(description='Vanilla Training')
 parser.add_argument('--config_env',
@@ -48,12 +54,12 @@ def main():
     print(colored('Retrieve model', 'blue'))
     model = get_model(p)
     model = torch.nn.DataParallel(model)
-    model = model.cuda()
+    model = model.cuda(device=device)
 
     # Get criterion
     print(colored('Get loss', 'blue'))
     criterion = get_criterion(p)
-    criterion.cuda()
+    criterion.cuda(device=device)
     print(criterion)
 
     # CUDNN
