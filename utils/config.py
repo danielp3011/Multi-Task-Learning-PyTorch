@@ -192,7 +192,7 @@ def create_config(env_file, exp_file):
     # cfg['output_dir'] = output_dir
     # cfg['save_dir'] = os.path.join(output_dir, 'results')
     ######### Change paths for result savings #################
-    folder_name = "mti_net_test" 
+    folder_name = "mti_net=Dss_Dsn_Dsl=Dhp" 
     ##########################################################
     cfg["output_dir"] = "/home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name 
     cfg["save_dir"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name + "/results"
