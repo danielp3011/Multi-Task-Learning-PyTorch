@@ -3,7 +3,7 @@
 # Licensed under the CC BY-NC 4.0 license (https://creativecommons.org/licenses/by-nc/4.0/)
 
 import sys
-from yd_utils.reporting_email import sender_mail_address
+from yd_utils.reporting_email import send_email
 from yd_utils.yd_config import server_name
 ############################## 
 target_mail_address_list = ["y.vorpahl@hotmail.de", "daniel.pietschmann@outlook.de"]
@@ -48,7 +48,7 @@ def main():
         p = create_config(args.config_env, args.config_exp)
 
         ######### Change paths for result savings #################
-        folder_name = "mti_net=Dss_Dsn_Dsl=Dhp"
+        folder_name = "mti_net=Dss_Dsn_Dhp=Dsl"
         ##########################################################'
         p["output_dir"] = "/home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name 
         p["save_dir"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name + "/results"
