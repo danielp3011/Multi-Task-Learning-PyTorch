@@ -21,7 +21,7 @@ from evaluation.evaluate_utils import eval_model, validate_results, save_model_p
 from termcolor import colored
 
 #######
-device = torch.device("cuda:1")
+#device = torch.device("cuda:1")
 
 #######
 
@@ -40,7 +40,7 @@ def main():
     p = create_config(args.config_env, args.config_exp)
 
     ######### Change paths for result savings #################
-    folder_name = "mti_net_test"
+    folder_name = "mti_net=Dss_Dsl_Dhp=Dsn"
     ##########################################################'
     p["output_dir"] = "/home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name 
     p["save_dir"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name + "/results"
@@ -54,12 +54,12 @@ def main():
     print(colored('Retrieve model', 'blue'))
     model = get_model(p)
     model = torch.nn.DataParallel(model)
-    model = model.cuda(device=device)
+    model = model.cuda()
 
     # Get criterion
     print(colored('Get loss', 'blue'))
     criterion = get_criterion(p)
-    criterion.cuda(device=device)
+    criterion.cuda()
     print(criterion)
 
     # CUDNN
@@ -149,6 +149,6 @@ def main():
     model.load_state_dict(torch.load(p['checkpoint'])['model'])
     save_model_predictions(p, val_dataloader, model)
     eval_stats = eval_all_results(p)
-
+    
 if __name__ == "__main__":
     main()

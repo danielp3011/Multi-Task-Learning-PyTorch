@@ -27,17 +27,17 @@ head: hrnet
 # Tasks
 task_dictionary:
    include_semseg: True
-   include_human_parts: False
+   include_human_parts: True
    include_sal: True
    include_edge: False
-   include_normals: True
+   include_normals: False 
    edge_w: 0.95
 
 auxilary_task_dictionary:
    include_semseg: True
-   include_human_parts: False 
+   include_human_parts: True 
    include_sal: True
-   include_normals: True
+   include_normals: False
    include_edge: False
    edge_w: 0.95 # Copy of task dictionary
 
