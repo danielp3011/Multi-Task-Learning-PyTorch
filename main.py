@@ -28,7 +28,7 @@ from evaluation.evaluate_utils import eval_model, validate_results, save_model_p
 from termcolor import colored
 
 #######
-device = torch.device("cuda:1")
+#device = torch.device("cuda:1")
 
 #######
 
