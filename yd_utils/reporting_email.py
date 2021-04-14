@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 
-def send_email(target_mail_address_list, exception_message="", successfully=False):
+def send_email(target_mail_address_list, server_name="Default", exception_message="", successfully=False):
     """Sending reporting email.
     Args:
         exception_message (str, optional): [description]. Defaults to "".
@@ -22,14 +22,14 @@ def send_email(target_mail_address_list, exception_message="", successfully=Fals
             smtp.login(sender_mail_address, sender_mail_pw)
 
             if successfully is False:
-                subject = 'Error, time: {}'.format(str(datetime.now()))
+                subject = server_name +': Error, time: {}'.format(str(datetime.now()))
                 body = 'Error\nTimestamp: ' + str(datetime.now()) + \
                     '\nThe error message is:\n' + str(exception_message)
                 msg = f'Subject: {subject}\n\n{body}'
                 smtp.sendmail(sender_mail_address, target_mail_address, msg)
 
             elif successfully is True:
-                subject = 'Success, time: {}'.format(str(datetime.now()))
+                subject = server_name +': Success, time: {}'.format(str(datetime.now()))
                 body = 'Success\nTimestamp: ' + str(datetime.now())
                 msg = f'Subject: {subject}\n\n{body}'
                 smtp.sendmail(sender_mail_address, target_mail_address, msg)
