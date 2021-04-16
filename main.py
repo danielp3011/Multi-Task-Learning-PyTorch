@@ -29,7 +29,6 @@ from termcolor import colored
 
 #######
 #device = torch.device("cuda:1")
-
 #######
 
 
@@ -160,6 +159,7 @@ def main():
         send_email(target_mail_address_list, server_name=server_name, exception_message="Success!", successfully=True)
 
     except Exception:
+        print(str(sys.exc_info()))
         send_email(target_mail_address_list, server_name=server_name, exception_message=str(sys.exc_info()), successfully=False)
 
 if __name__ == "__main__":
