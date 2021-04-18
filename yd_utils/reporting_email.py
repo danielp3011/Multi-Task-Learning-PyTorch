@@ -27,11 +27,13 @@ def send_email(target_mail_address_list, server_name="Default", exception_messag
                     '\nThe error message is:\n' + str(exception_message)
                 msg = f'Subject: {subject}\n\n{body}'
                 smtp.sendmail(sender_mail_address, target_mail_address, msg)
+                print("Error mail sent")
 
             elif successfully is True:
                 subject = server_name +': Success, time: {}'.format(str(datetime.now()))
                 body = 'Success\nTimestamp: ' + str(datetime.now())
                 msg = f'Subject: {subject}\n\n{body}'
                 smtp.sendmail(sender_mail_address, target_mail_address, msg)
+                print("Success mail sent.")
 
 # send_email("test", target_mail_address=target_mail_address, successfully=False, )
