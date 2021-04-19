@@ -189,13 +189,13 @@ def create_config(env_file, exp_file):
         
 
     cfg['root_dir'] = root_dir
-    # cfg['output_dir'] = output_dir
-    # cfg['save_dir'] = os.path.join(output_dir, 'results')
+    cfg['output_dir'] = output_dir
+    cfg['save_dir'] = os.path.join(output_dir, 'results')
     ######### Change paths for result savings #################
-    folder_name = "mti_net=Dss_Dsl_Dhp=Dsn" 
-    ##########################################################
-    cfg["output_dir"] = "/home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name 
-    cfg["save_dir"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name + "/results"
+    # folder_name = "mti_net=Dss_Dsl_Dhp=Dsn" 
+    # ##########################################################
+    # cfg["output_dir"] = "/home/data2/yd/results_yd/mtlpt/NYUD/hrnet_w18/" + folder_name 
+    # cfg["save_dir"] = "../../../data2/yd/results_yd/mtlpt/NYUD/hrnet_w18/" + folder_name + "/results"
     
     cfg['checkpoint'] = os.path.join(output_dir, 'checkpoint.pth.tar')
     cfg['best_model'] = os.path.join(output_dir, 'best_model.pth.tar')
