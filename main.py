@@ -47,7 +47,7 @@ def main():
         p = create_config(args.config_env, args.config_exp)
 
         ######### Change paths for result savings #################
-        folder_name = "mti_net=Dss_Dsn_Dhp=Dsl"
+        folder_name = "mti_net=Dss_Dsn_Dsl=Dhp"
         ##########################################################'
         p["output_dir"] = "/home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name 
         p["save_dir"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name + "/results"
