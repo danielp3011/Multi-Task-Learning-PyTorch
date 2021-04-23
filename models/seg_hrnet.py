@@ -509,7 +509,7 @@ class HighResolutionHead(nn.Module):
         return x        
 
 def hrnet_w18(pretrained=False):
-    import yaml
+    import yaml 
     from utils.mypath import PROJECT_ROOT_DIR
     hrnet_cfg = os.path.join(PROJECT_ROOT_DIR, 'models', 'model_info', 'hrnet_w18.yml')
      
@@ -517,7 +517,8 @@ def hrnet_w18(pretrained=False):
         hrnet_cfg = yaml.safe_load(stream)
     
     model = HighResolutionNet(hrnet_cfg)
-    if pretrained:
+    if pretrained: 
+        print("4444: ", "WEIGHTS ARE PRETRAINED")
         pretrained_weights = os.path.join(PROJECT_ROOT_DIR, 'models', 'pretrained_models', 'hrnet_w18_small_model_v2.pth')
         if os.path.exists(pretrained_weights):
             model.init_weights(pretrained_weights)
