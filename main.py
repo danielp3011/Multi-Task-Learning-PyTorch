@@ -45,8 +45,10 @@ def main():
 
     ######### Change paths for result savings #################
     folder_name = "mti_net=Dss_Dsn_Dsl=Dhp" 
-    device_ids_to_use = [3] # [0, 1, 2, 3] 
-    cuda_device_use = 3 # 0/ 1/ 2/ 3
+    #device = torch.cuda.set_device(2) # 0/ 1/ 2/ 3 
+    #print("3333: ", device)
+    #device_ids_to_use = [3] # [0, 1, 2, 3] 
+    #cuda_device_use = 3 # 0/ 1/ 2/ 3 
     ##########################################################'
     p["output_dir"] = "/home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name 
     p["save_dir"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name + "/results"
@@ -59,13 +61,15 @@ def main():
     # Get model
     print(colored('Retrieve model', 'blue'))
     model = get_model(p)
-    model = torch.nn.DataParallel(model, device_ids=device_ids_to_use)
-    model = model.cuda(cuda_device_use)  # device=device)
+    model = torch.nn.DataParallel(model)
+    model = model.cuda()  # device=device) 
+    #model = model.to(device)
 
     # Get criterion
     print(colored('Get loss', 'blue'))
     criterion = get_criterion(p)
-    criterion.cuda(cuda_device_use)  # device=device)
+    criterion.cuda()  # device=device) 
+    #model = model.to(device)
     print(criterion)
 
     # CUDNN
