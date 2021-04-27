@@ -50,7 +50,9 @@ def main():
     elif p["setup"] == "multi_task":
         ######### Change foldder name for result savings #################
         print("1236: Multi_task mode in main.py")
-        folder_name = "experiment"
+        folder_name = "experiment" 
+        dataset = p['train_db_name']  # NYUD/ PASCAL_CONTEXT 
+        print("MAIN DATASET: ", dataset)
         # folder_name = "all"
         # folder_name = "mti_net=Dsn_Dsl_Dhp=Dss"
         # folder_name = "mti_net=Dss_Dsl_Dhp=Dsn"

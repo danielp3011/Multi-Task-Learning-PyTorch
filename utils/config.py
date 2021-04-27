@@ -200,6 +200,8 @@ def create_config(env_file, exp_file):
     elif cfg["setup"] == "multi_task":
         ######### Change paths for result savings #################
         folder_name = "experiment"
+        dataset = cfg['train_db_name']  # NYUD/ PASCAL_CONTEXT 
+        print("CONFIG DATASET: ", dataset)
         # folder_name = "all"
         # folder_name = "mti_net=Dsn_Dsl_Dhp=Dss"
         # folder_name = "mti_net=Dss_Dsl_Dhp=Dsn"
