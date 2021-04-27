@@ -46,13 +46,23 @@ def main():
     cv2.setNumThreads(0)
     p = create_config(args.config_env, args.config_exp)
 
-    # ######### Change paths for result savings #################
-    # folder_name = "mti_net=Dss_Dsl_Dhp=Dsn"
-    # ##########################################################'
-    # p["output_dir"] = "/home/data2/yd/results_yd/mtlpt/NYUD/hrnet_w18/" + folder_name 
-    # p["save_dir"] = "../../../data2/yd/results_yd/mtlpt/NYUD/hrnet_w18/" + folder_name + "/results"
-    # p["checkpoint"] = "../../../data2/yd/results_yd/mtlpt/NYUD/hrnet_w18/" + folder_name + "/checkpoint.pth.tar"
-    # p["best_model"] = "../../../data2/yd/results_yd/mtlpt/NYUD/hrnet_w18/" + folder_name + "/best_model.pth.tar"
+    if p["setup"] == "single_task":
+        print("1235: Single_task mode in main.py")
+        pass
+    elif p["setup"] == "multi_task":
+        ######### Change foldder name for result savings #################
+        print("1236: Multi_task mode in main.py")
+        folder_name = "experiment"
+        # folder_name = "all"
+        # folder_name = "mti_net=Dsn_Dsl_Dhp=Dss"
+        # folder_name = "mti_net=Dss_Dsl_Dhp=Dsn"
+        # folder_name = "mti_net=Dss_Dsn_Dhp=Dsl"
+        # folder_name = "mti_net=Dss_Dsn_Dsl=Dhp" 
+        ##########################################################'
+        p["output_dir"] = "/home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name 
+        p["save_dir"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name + "/results"
+        p["checkpoint"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name + "/checkpoint.pth.tar"
+        p["best_model"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name + "/best_model.pth.tar"
 
     sys.stdout = Logger(os.path.join(p['output_dir'], 'log_file.txt'))
     print(colored(p, 'red'))
