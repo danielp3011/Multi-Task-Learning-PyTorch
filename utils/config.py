@@ -189,14 +189,28 @@ def create_config(env_file, exp_file):
         
 
     cfg['root_dir'] = root_dir
-    # cfg['output_dir'] = output_dir
-    # cfg['save_dir'] = os.path.join(output_dir, 'results')
-    ######### Change paths for result savings #################
-    folder_name = "mti_net=Dss_Dsn_Dsl=Dhp" 
-    ##########################################################
-    cfg["output_dir"] = "/home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name 
-    cfg["save_dir"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name + "/results"
+
+
     
+    if cfg["setup"] == "single_task":
+        cfg['output_dir'] = output_dir
+        cfg['save_dir'] = os.path.join(output_dir, 'results')
+        print("4321: Single_task mode in config.py")
+        pass
+    elif cfg["setup"] == "multi_task":
+        ######### Change paths for result savings #################
+        folder_name = "experiment"
+        # folder_name = "all"
+        # folder_name = "mti_net=Dsn_Dsl_Dhp=Dss"
+        # folder_name = "mti_net=Dss_Dsl_Dhp=Dsn"
+        # folder_name = "mti_net=Dss_Dsn_Dhp=Dsl"
+        # folder_name = "mti_net=Dss_Dsn_Dsl=Dhp" 
+        ##########################################################
+
+        print("4322: Multiple Task mode in config.py")
+        cfg["output_dir"] = "/home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name 
+        cfg["save_dir"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name + "/results"
+        
     cfg['checkpoint'] = os.path.join(output_dir, 'checkpoint.pth.tar')
     cfg['best_model'] = os.path.join(output_dir, 'best_model.pth.tar')
     mkdir_if_missing(cfg['output_dir'])
