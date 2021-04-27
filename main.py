@@ -52,12 +52,11 @@ def main():
     elif p["setup"] == "multi_task":
         ######### Change foldder name for result savings #################
         print("1236: Multi_task mode in main.py")
-        folder_name = "experiment"
+        folder_name = "mti_net=Dss_Dde=Dsn"
         # folder_name = "all"
-        # folder_name = "mti_net=Dsn_Dsl_Dhp=Dss"
-        # folder_name = "mti_net=Dss_Dsl_Dhp=Dsn"
-        # folder_name = "mti_net=Dss_Dsn_Dhp=Dsl"
-        # folder_name = "mti_net=Dss_Dsn_Dsl=Dhp" 
+        # folder_name = "mti_net=Dss_Dde=Dsn"
+        # folder_name = "mti_net=Dss_Dsn=Dde"
+        # folder_name = "mti_net=Dsn_Dde=Dss"
         ##########################################################'
         p["output_dir"] = "/home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name 
         p["save_dir"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name + "/results"
