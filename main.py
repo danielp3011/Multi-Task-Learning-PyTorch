@@ -52,16 +52,19 @@ def main():
     elif p["setup"] == "multi_task":
         ######### Change foldder name for result savings #################
         print("1236: Multi_task mode in main.py")
-        folder_name = "mti_net=Dss_Dde=Dsn"
+        folder_name = "mti_net=Dss_Dde=Dsn" 
+        dataset = p['train_db_name']  # NYUD/ PASCAL_CONTEXT 
+        print("MAIN: ", dataset)
+
         # folder_name = "all"
         # folder_name = "mti_net=Dss_Dde=Dsn"
         # folder_name = "mti_net=Dss_Dsn=Dde"
         # folder_name = "mti_net=Dsn_Dde=Dss"
         ##########################################################'
-        p["output_dir"] = "/home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name 
-        p["save_dir"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name + "/results"
-        p["checkpoint"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name + "/checkpoint.pth.tar"
-        p["best_model"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name + "/best_model.pth.tar"
+        p["output_dir"] = "/home/data2/yd/results_yd/mtlpt/" + dataset + "/hrnet_w18/" + folder_name 
+        p["save_dir"] = "../../../data2/yd/results_yd/mtlpt/" + dataset + "/hrnet_w18/" + folder_name + "/results"
+        p["checkpoint"] = "../../../data2/yd/results_yd/mtlpt/" + dataset + "/hrnet_w18/" + folder_name + "/checkpoint.pth.tar"
+        p["best_model"] = "../../../data2/yd/results_yd/mtlpt/" + dataset + "/hrnet_w18/" + folder_name + "/best_model.pth.tar"
 
     sys.stdout = Logger(os.path.join(p['output_dir'], 'log_file.txt'))
     print(colored(p, 'red'))

@@ -28,12 +28,12 @@ head: hrnet
 task_dictionary:
    include_semseg: True
    include_depth: True 
-   include_normals: True
+   include_normals: False
 
 auxilary_task_dictionary:
    include_semseg: True
    include_depth: True 
-   include_normals: True
+   include_normals: False
 
 # Loss kwargs
 loss_kwargs:
