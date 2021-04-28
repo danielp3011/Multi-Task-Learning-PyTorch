@@ -199,12 +199,16 @@ def create_config(env_file, exp_file):
         pass
     elif cfg["setup"] == "multi_task":
         ######### Change paths for result savings #################
-        folder_name = "experiment"
-        # folder_name = "all"
-        # folder_name = "mti_net=Dsn_Dsl_Dhp=Dss"
-        # folder_name = "mti_net=Dss_Dsl_Dhp=Dsn"
-        # folder_name = "mti_net=Dss_Dsn_Dhp=Dsl"
-        # folder_name = "mti_net=Dss_Dsn_Dsl=Dhp" 
+        # selected_model = "mti_net/"
+        selected_model = "cross_stitch/"
+
+        folder_name = "all"
+        # folder_name = "Dsn_Dsl_Dhp=Dss"
+        # folder_name = "Dss_Dsl_Dhp=Dsn"
+        # folder_name = "Dss_Dsn_Dhp=Dsl"
+        # folder_name = "Dss_Dsn_Dsl=Dhp" 
+        # folder_name = "all_aux/"+ folder_name +"_aux=all"
+        # folder_name = selected_model + folder_name
         ##########################################################
 
         print("4322: Multiple Task mode in config.py")
