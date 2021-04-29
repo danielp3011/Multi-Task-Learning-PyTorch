@@ -199,9 +199,13 @@ def create_config(env_file, exp_file):
         pass
     elif cfg["setup"] == "multi_task":
         ######### Change paths for result savings #################
-        folder_name = "experiment"
+        # folder_name = "experiment"
         dataset = cfg['train_db_name']  # NYUD/ PASCAL_CONTEXT 
         print("CONFIG DATASET: ", dataset)
+        
+        # backbone = "hrnet_w18/"
+        backbone = "resnet18/"
+
         # selected_model = "mti_net/"
         selected_model = "cross_stitch/"
 
@@ -212,11 +216,12 @@ def create_config(env_file, exp_file):
         # folder_name = "Dss_Dsn_Dsl=Dhp" 
         # folder_name = "all_aux/"+ folder_name +"_aux=all"
         # folder_name = selected_model + folder_name
+        folder_name = backbone + selected_model + folder_name
         ##########################################################
 
         print("4322: Multiple Task mode in config.py")
-        cfg["output_dir"] = "/home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name 
-        cfg["save_dir"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name + "/results"
+        cfg["output_dir"] = "/home/data2/yd/results_yd/mtlpt/PASCALContext/" + folder_name 
+        cfg["save_dir"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/" + folder_name + "/results"
         
     cfg['checkpoint'] = os.path.join(output_dir, 'checkpoint.pth.tar')
     cfg['best_model'] = os.path.join(output_dir, 'best_model.pth.tar')

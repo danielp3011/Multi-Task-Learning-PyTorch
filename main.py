@@ -50,9 +50,14 @@ def main():
     elif p["setup"] == "multi_task":
         ######### Change foldder name for result savings #################
         print("1236: Multi_task mode in main.py")
-        folder_name = "experiment" 
+        # folder_name = "experiment" 
         dataset = p['train_db_name']  # NYUD/ PASCAL_CONTEXT 
         print("MAIN DATASET: ", dataset)
+        
+        
+        # backbone = "hrnet_w18/"
+        backbone = "resnet18/"
+
         # selected_model = "mti_net/"
         selected_model = "cross_stitch/"
 
@@ -63,11 +68,12 @@ def main():
         # folder_name = "Dss_Dsn_Dsl=Dhp" 
         # folder_name = "all_aux/"+ folder_name +"_aux=all"
         # folder_name = selected_model + folder_name
+        folder_name = backbone + selected_model + folder_name
         ##########################################################'
-        p["output_dir"] = "/home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name 
-        p["save_dir"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name + "/results"
-        p["checkpoint"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name + "/checkpoint.pth.tar"
-        p["best_model"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name + "/best_model.pth.tar"
+        p["output_dir"] = "/home/data2/yd/results_yd/mtlpt/PASCALContext/" + folder_name 
+        p["save_dir"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/" + folder_name + "/results"
+        p["checkpoint"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/" + folder_name + "/checkpoint.pth.tar"
+        p["best_model"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/" + folder_name + "/best_model.pth.tar"
 
     sys.stdout = Logger(os.path.join(p['output_dir'], 'log_file.txt'))
     print(colored(p, 'red'))
