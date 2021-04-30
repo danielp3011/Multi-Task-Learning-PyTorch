@@ -29,41 +29,21 @@ from termcolor import colored
 
 
 
-# Parser
+# Parsers
 parser = argparse.ArgumentParser(description='Vanilla Training')
 parser.add_argument('--config_env',
                     help='Config file for the environment')
 parser.add_argument('--config_exp',
                     help='Config file for the experiment')
+parser.add_argument('--save_name', help='folder_name, where results are saved (only for multi-task mode)', type=str) 
 args = parser.parse_args()
 
 def main():
+
     #try:
     # Retrieve config file
     cv2.setNumThreads(0)
-    p = create_config(args.config_env, args.config_exp)
-
-    
-    if p["setup"] == "single_task":
-        print("1235: Single_task mode in main.py")
-        pass
-    elif p["setup"] == "multi_task":
-        ######### Change foldder name for result savings #################
-        print("1236: Multi_task mode in main.py")
-        folder_name = "experiment" 
-        dataset = p['train_db_name']  # NYUD/ PASCAL_CONTEXT 
-        print("MAIN DATASET: ", dataset)
-        # folder_name = "all"
-        # folder_name = "mti_net=Dsn_Dsl_Dhp=Dss"
-        # folder_name = "mti_net=Dss_Dsl_Dhp=Dsn"
-        # folder_name = "mti_net=Dss_Dsn_Dhp=Dsl"
-        # folder_name = "mti_net=Dss_Dsn_Dsl=Dhp" 
-        ##########################################################'
-        p["output_dir"] = "/home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name 
-        p["save_dir"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name + "/results"
-        p["checkpoint"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name + "/checkpoint.pth.tar"
-        p["best_model"] = "../../../data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/" + folder_name + "/best_model.pth.tar"
-
+    p = create_config(args.config_env, args.config_exp, args.save_name)
     sys.stdout = Logger(os.path.join(p['output_dir'], 'log_file.txt'))
     print(colored(p, 'red'))
 
@@ -71,14 +51,12 @@ def main():
     print(colored('Retrieve model', 'blue'))
     model = get_model(p)
     model = torch.nn.DataParallel(model)
-    model = model.cuda()  # device=device) 
-    #model = model.to(device)
+    model = model.cuda()  # device=device)
 
     # Get criterion
     print(colored('Get loss', 'blue'))
     criterion = get_criterion(p)
-    criterion.cuda()  # device=device) 
-    #model = model.to(device)
+    criterion.cuda()  # device=device)
     print(criterion)
 
     # CUDNN
@@ -118,7 +96,6 @@ def main():
     else:
         print(colored('No checkpoint file at {}'.format(p['checkpoint']), 'blue'))
         start_epoch = 0 
-        print("P after predictions: ", p) 
         save_model_predictions(p, val_dataloader, model)
         best_result = eval_all_results(p)
     
