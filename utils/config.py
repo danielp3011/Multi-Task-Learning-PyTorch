@@ -93,7 +93,8 @@ def parse_task_dictionary(db_name, task_dictionary):
 
 def create_config(env_file, exp_file, save_name):
     
-    # Read the files 
+    # Read the files  
+    print("121: ", save_name)
     with open(env_file, 'r') as stream: 
         print("1: ", stream) 
         root_dir = yaml.safe_load(stream)['root_dir']

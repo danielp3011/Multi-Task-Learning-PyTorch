@@ -35,13 +35,13 @@ parser.add_argument('--config_env',
                     help='Config file for the environment')
 parser.add_argument('--config_exp',
                     help='Config file for the experiment')
-parser.add_argument('--save_name', help='folder_name, where results are saved (only for multi-task mode)', type=str) 
+parser.add_argument('--save_name', help='folder_name, where results are saved (only for multi-task mode)', type=str, required=True) 
 args = parser.parse_args()
 
 def main():
 
     #try:
-    # Retrieve config file
+    # Retrieve config file 
     cv2.setNumThreads(0)
     p = create_config(args.config_env, args.config_exp, args.save_name)
     sys.stdout = Logger(os.path.join(p['output_dir'], 'log_file.txt'))
