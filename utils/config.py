@@ -91,7 +91,7 @@ def parse_task_dictionary(db_name, task_dictionary):
     return task_cfg, other_args
 
 
-def create_config(env_file, exp_file):
+def create_config(env_file, exp_file, save_name):
     
     # Read the files 
     with open(env_file, 'r') as stream: 
@@ -180,37 +180,17 @@ def create_config(env_file, exp_file):
         output_dir = os.path.join(output_dir, cfg.TASKS.NAMES[0])
     elif cfg['setup'] == 'multi_task':
         if cfg['model'] == 'baseline': 
-            output_dir = os.path.join(root_dir, cfg['train_db_name'], cfg['backbone'], 'multi_task_baseline') 
+            output_dir = os.path.join(root_dir, cfg['train_db_name'], cfg['backbone'], 'multi_task_baseline', save_name) 
         else:
-            output_dir = os.path.join(root_dir, cfg['train_db_name'], cfg['backbone'], cfg['model'])
+            output_dir = os.path.join(root_dir, cfg['train_db_name'], cfg['backbone'], cfg['model'], save_name)
             print("OuT: ", output_dir)
     else:
         raise NotImplementedError
         
 
     cfg['root_dir'] = root_dir
-
-    ######### Change paths for result savings #################
-    if cfg["setup"] == "single_task":
-        cfg['output_dir'] = output_dir
-        cfg['save_dir'] = os.path.join(output_dir, 'results')
-        print("4321: Single_task mode in config.py")
-        pass
-    elif cfg["setup"] == "multi_task":
-        ######### Change paths for result savings #################
-        folder_name = "mti_net=Dss_Dde=Dsn" 
-        dataset = cfg['train_db_name']  # NYUD/ PASCAL_CONTEXT 
-        print("CONFIG : ", dataset)
-        # folder_name = "all"
-        # folder_name = "mti_net=Dss_Dde=Dsn"
-        # folder_name = "mti_net=Dss_Dsn=Dde"
-        # folder_name = "mti_net=Dsn_Dde=Dss"
-        ##########################################################
-
-        print("4322: Multiple Task mode in config.py")
-        cfg["output_dir"] = "/home/data2/yd/results_yd/mtlpt/" + dataset + "/hrnet_w18/" + folder_name 
-        cfg["save_dir"] = "../../../data2/yd/results_yd/mtlpt/" + dataset + "/hrnet_w18/" + folder_name + "/results"
-    
+    cfg['output_dir'] = output_dir
+    cfg['save_dir'] = os.path.join(output_dir, 'results')    
     cfg['checkpoint'] = os.path.join(output_dir, 'checkpoint.pth.tar')
     cfg['best_model'] = os.path.join(output_dir, 'best_model.pth.tar')
     mkdir_if_missing(cfg['output_dir'])
