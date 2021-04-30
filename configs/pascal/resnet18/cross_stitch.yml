@@ -41,7 +41,7 @@ task_dictionary:
    include_semseg: True
    include_human_parts: True
    include_sal: True
-   include_edge: True
+   include_edge: False
    include_normals: True
    edge_w: 0.95
 
