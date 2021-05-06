@@ -21,7 +21,8 @@ model = get_model(p)
 model = torch.nn.DataParallel(model)
 model = model.cuda()  # device=device)
 model.load_state_dict(torch.load(p['best_model'])) 
-print(model)
+features = model.module.heads.semseg.last_layer[2] 
+print(type(features))
 
 
 #print("Model: ", model) 
