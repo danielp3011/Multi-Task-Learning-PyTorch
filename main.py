@@ -142,8 +142,9 @@ def main():
 
     # Evaluate best model at the end
     print(colored('Evaluating best model at the end', 'blue'))
-    model.load_state_dict(torch.load(p['checkpoint'])['model'])
-    print("Statedict: ", model.state_dict())
+    model.load_state_dict(torch.load(p['checkpoint'])['model']) 
+    print("Model state dict keys: ", model.state_dict().keys())
+    #print("Model state dict all: ", model.state_dict().items()) 
     save_model_predictions(p, val_dataloader, model)
     eval_stats = eval_all_results(p)
     send_email(target_mail_address_list, server_name=server_name, exception_message="Success!", successfully=True)
@@ -153,4 +154,4 @@ def main():
     #     send_email(target_mail_address_list, server_name=server_name, exception_message=str(sys.exc_info()), successfully=False)
 
 if __name__ == "__main__":
-    main()
+    main() 

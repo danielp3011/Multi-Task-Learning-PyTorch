@@ -155,17 +155,17 @@ class MTINet(nn.Module):
             # Scale 0
         x_0 = self.scale_0(x[0], x_1_fpm)
         
-        out['deep_supervision'] = {'scale_0': x_0, 'scale_1': x_1, 'scale_2': x_2, 'scale_3': x_3}        
+        out['deep_supervision'] = {'scale_0': x_0, 'scale_1': x_1, 'scale_2': x_2, 'scale_3': x_3}     
 
         # Distillation + Output
         features_0 = self.distillation_scale_0(x_0)
         features_1 = self.distillation_scale_1(x_1)
         features_2 = self.distillation_scale_2(x_2)
         features_3 = self.distillation_scale_3(x_3)
-        multi_scale_features = {t: [features_0[t], features_1[t], features_2[t], features_3[t]] for t in self.tasks}
+        multi_scale_features = {t: [features_0[t], features_1[t], features_2[t], features_3[t]] for t in self.tasks} 
 
         # Feature aggregation
         for t in self.tasks:
-            out[t] = F.interpolate(self.heads[t](multi_scale_features[t]), img_size, mode = 'bilinear')
+            out[t] = F.interpolate(self.heads[t](multi_scale_features[t]), img_size, mode = 'bilinear') 
             
         return out
