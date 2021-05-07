@@ -133,7 +133,6 @@ def get_model(p):
         elif p['model'] == 'mti_net':
             from models.mti_net import MTINet
             heads = torch.nn.ModuleDict({task: get_head(p, backbone_channels, task) for task in p.TASKS.NAMES}) 
-            print("HEADS: ", heads)
             model = MTINet(p, backbone, backbone_channels, heads)
 
 
