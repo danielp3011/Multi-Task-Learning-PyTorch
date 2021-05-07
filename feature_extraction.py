@@ -14,6 +14,7 @@ from train.train_utils import train_vanilla
 from evaluation.evaluate_utils import eval_model, validate_results, save_model_predictions,\
                                     eval_all_results
 from termcolor import colored
+import torch.nn as nn
 
 # Load architecture of model
 p = create_config("configs/env.yml", "configs/nyud/hrnet18/mti_net.yml", "all")   
@@ -45,3 +46,16 @@ print("Model with modified heads: ", model)
 #features = list(model.last_layer)
 #print(features)
 
+# class FeatureExtractor(nn.Module):
+#     def __init__(self, model):
+#         super(FeatureExtractor, self).__init__()
+#         self.heasds = torch.nn.ModuleDict({task: get_head(p, backbone_channels, task) for task in p.TASKS:NAMES})
+#         self.features(list(model.features))
+#         self.features = nn.Sequential(*self.features)
+#         self.relu = model.
+
+
+
+# remove last fully-connected layer
+new_model = nn.Sequential(*list(model.children())[:-1])
+print(help(new_model))
