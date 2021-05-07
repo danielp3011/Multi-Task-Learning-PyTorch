@@ -482,7 +482,8 @@ class HighResolutionHead(nn.Module):
     def __init__(self, backbone_channels, num_outputs):
         super(HighResolutionHead, self).__init__()
         last_inp_channels = sum(backbone_channels)
-        self.last_layer = nn.Sequential(
+        print("Aufruf")
+        self.last_layer_first_part = nn.Sequential(
             nn.Conv2d(
                 in_channels=last_inp_channels,
                 out_channels=last_inp_channels,
@@ -490,7 +491,8 @@ class HighResolutionHead(nn.Module):
                 stride=1,
                 padding=0),
             nn.BatchNorm2d(last_inp_channels, momentum = 0.1),
-            nn.ReLU(inplace=False),
+            nn.ReLU(inplace=False))
+            self.last_layer_second_part = nn.Sequential(
             nn.Conv2d(
                 in_channels=last_inp_channels,
                 out_channels= num_outputs,
@@ -505,7 +507,13 @@ class HighResolutionHead(nn.Module):
         x3 = F.interpolate(x[3], (x0_h, x0_w), mode='bilinear')
 
         x = torch.cat([x[0], x1, x2, x3], 1)
-        x = self.last_layer(x)
+        x = self.last_layer_first_part(x) 
+        feature_extraction = True 
+        if feature_extraction == True:
+            np.save(x, "relu_feature_extraction.npy")
+            raise: "Stopped, because you only wanted to extract features"
+        else:
+            x = self.last_layer_second_part(x)
         return x        
 
 def hrnet_w18(pretrained=False):
