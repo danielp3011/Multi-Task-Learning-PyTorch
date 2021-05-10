@@ -205,21 +205,29 @@ def save_model_predictions(p, val_loader, model):
         mkdir_if_missing(save_dir)
 
     for ii, sample in enumerate(val_loader):      
-        inputs, meta = sample['image'].cuda(non_blocking=True), sample['meta']
+        inputs, meta = sample['image'].cuda(non_blocking=True), sample['meta'] 
+        # print("Inputs: ", inputs) 
+        # print("Meta: ", meta) 
+        # print("meta type: ", type(meta))
         img_size = (inputs.size(2), inputs.size(3))
         output = model(inputs)
+        # np.save("test_feature_maps/" + meta["image"][0] + ".npy", output)
+        # print("OUTPUT deep supervision: ", output["deep_supervision"]["scale_0"].keys()) 
+        #print("OUTPUT normals: ", output["normals"].keys()) 
+        #print("OUTPUT depth: ", output["depth"].keys()) 
+
  
-        for task in p.TASKS.NAMES:
-            output_task = get_output(output[task], task).cpu().data.numpy()
-            for jj in range(int(inputs.size()[0])):
-                if len(sample[task][jj].unique()) == 1 and sample[task][jj].unique() == 255:
-                    continue
-                fname = meta['image'][jj]                
-                result = cv2.resize(output_task[jj], dsize=(meta['im_size'][1][jj], meta['im_size'][0][jj]), interpolation=p.TASKS.INFER_FLAGVALS[task])
-                if task == 'depth':
-                    sio.savemat(os.path.join(save_dirs[task], fname + '.mat'), {'depth': result})
-                else:
-                    imageio.imwrite(os.path.join(save_dirs[task], fname + '.png'), result.astype(np.uint8))
+        # for task in p.TASKS.NAMES:
+        #     output_task = get_output(output[task], task).cpu().data.numpy()
+        #     for jj in range(int(inputs.size()[0])):
+        #         if len(sample[task][jj].unique()) == 1 and sample[task][jj].unique() == 255:
+        #             continue
+        #         fname = meta['image'][jj]                
+        #         result = cv2.resize(output_task[jj], dsize=(meta['im_size'][1][jj], meta['im_size'][0][jj]), interpolation=p.TASKS.INFER_FLAGVALS[task])
+        #         if task == 'depth':
+        #             sio.savemat(os.path.join(save_dirs[task], fname + '.mat'), {'depth': result})
+        #         else:
+        #             imageio.imwrite(os.path.join(save_dirs[task], fname + '.png'), result.astype(np.uint8))
 
 
 def eval_all_results(p):
