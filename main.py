@@ -40,6 +40,10 @@ args = parser.parse_args()
 
 def main():
 
+    ################
+    feature_extraction = False
+    ################
+
     #try:
     # Retrieve config file 
     cv2.setNumThreads(0)
@@ -96,7 +100,7 @@ def main():
     else:
         print(colored('No checkpoint file at {}'.format(p['checkpoint']), 'blue'))
         start_epoch = 0 
-        save_model_predictions(p, val_dataloader, model)
+        save_model_predictions(p, val_dataloader, model, feature_extraction, args.save_name)
         best_result = eval_all_results(p)
     
     
@@ -128,7 +132,7 @@ def main():
         # Perform evaluation
         if eval_bool:
             print('Evaluate ...')
-            save_model_predictions(p, val_dataloader, model)
+            save_model_predictions(p, val_dataloader, model, feature_extraction, args.save_name)
             curr_result = eval_all_results(p)
             improves, best_result = validate_results(p, curr_result, best_result)
             if improves:
@@ -144,7 +148,7 @@ def main():
     print(colored('Evaluating best model at the end', 'blue'))
     model.load_state_dict(torch.load(p['checkpoint'])['model']) 
     #print("Model state dict all: ", model.state_dict().items()) 
-    save_model_predictions(p, val_dataloader, model)
+    save_model_predictions(p, val_dataloader, model, feature_extraction, args.save_name)
     eval_stats = eval_all_results(p)
     send_email(target_mail_address_list, server_name=server_name, exception_message="Success!", successfully=True)
 
