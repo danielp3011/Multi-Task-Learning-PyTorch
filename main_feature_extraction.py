@@ -93,9 +93,13 @@ def main():
     model.load_state_dict(torch.load(p['best_model'])) 
 
     # Load all task decoders without last layer & replace model in decoder head with decoder, that doesn´t has last head
-    for task_name in p.TASKS.NAMES: 
-        model.module.heads[task_name].last_layer = torch.nn.Sequential(*list(model.module.heads[task_name].last_layer.children())[:-1])    
-        
+    if p["setup"] == "single_task": 
+        model.module.decoder.last_layer = torch.nn.Sequential(*list(model.module.decoder.last_layer.children())[:-1])    
+        print("SINGLE TASK")
+    else:
+        for task_name in p.TASKS.NAMES: 
+            model.module.heads[task_name].last_layer = torch.nn.Sequential(*list(model.module.heads[task_name].last_layer.children())[:-1])    
+            print("MULTI-TASK")
         
     # Load all task decoders without last layer 
     #human_parts = torch.nn.Sequential(*list(model.module.heads.human_parts.last_layer.children())[:-1])
@@ -112,7 +116,7 @@ def main():
     #model.module.heads.human_parts.last_layer = human_parts
     #model.module.heads.sal.last_layer = sal_decoder
 
-    print("MODELS: ", model)
+    # print("MODELS: ", model)
 
     #print("Model state dict all: ", model.state_dict().items()) 
     save_model_predictions(p, val_dataloader, model, feature_extraction, args.save_name)
