@@ -99,7 +99,7 @@ def main():
     else:
         for task_name in p.TASKS.NAMES: 
             model.module.heads[task_name].last_layer = torch.nn.Sequential(*list(model.module.heads[task_name].last_layer.children())[:-1])    
-            print("MULTI-TASK")
+            print("MULTI-TASK") 
         
     # Load all task decoders without last layer 
     #human_parts = torch.nn.Sequential(*list(model.module.heads.human_parts.last_layer.children())[:-1])

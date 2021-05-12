@@ -11,6 +11,7 @@ import torch
 import scipy.io as sio
 from utils.utils import get_output, mkdir_if_missing 
 import csv 
+from tqdm import tqdm 
 
 
 class PerformanceMeter(object):
@@ -199,10 +200,14 @@ def save_model_predictions(p, val_loader, model, feature_extraction, save_name):
     """ Save model predictions for all tasks """
 
     if feature_extraction:  # setup for feature extraction 
+        all_task_dictionary = {}  # create dictionary to hold all feature maps of all images and all tasks 
         for task in p.TASKS.NAMES:
             results_path = "/home/data2/yd/results_yd/mtlpt/" + p['val_db_name'] + "/" + p["backbone"] + "/feature_maps/" + save_name + "/" + str(task)
             mkdir_if_missing(results_path)
 
+            # all_task_dictionary[task] = np.array([])  # initialize empty dictionary entry per task 
+            all_task_dictionary[task] = []
+        results_path = "/home/data2/yd/results_yd/mtlpt/" + p['val_db_name'] + "/" + p["backbone"] + "/feature_maps/" + save_name
     print('Save model predictions to {}'.format(p['save_dir']))
     model.eval()
     tasks = p.TASKS.NAMES
@@ -210,19 +215,30 @@ def save_model_predictions(p, val_loader, model, feature_extraction, save_name):
     for save_dir in save_dirs.values():
         mkdir_if_missing(save_dir)
 
-    for ii, sample in enumerate(val_loader): 
+    for ii, sample in tqdm(enumerate(val_loader)): 
         # print("number ii: ", ii)      
         inputs, meta = sample['image'].cuda(non_blocking=True), sample['meta'] 
         img_size = (inputs.size(2), inputs.size(3))
         output = model(inputs)
- 
-        for task in p.TASKS.NAMES:
+        
+        # if ii > 5:
+        #     break
+        
+        for task in tasks:
             if feature_extraction: 
-                output_task = get_output(output[task], task, feature_extraction).cpu().data.numpy()
-                print("Output Task Shape Single Task: ", output_task.shape)
-                print("Output Task Shape after Reshape: ", np.reshape(output_task, -1).shape)
 
-                #np.save(results_path + "/" + meta["image"][0] + ".npy", output_task, allow_pickle=True) 
+                output_task = get_output(output[task], task, feature_extraction).cpu().data.numpy() 
+                output_task = torch.from_numpy(output_task).permute(0, 3, 1, 2)
+                output_task = torch.nn.Upsample(size=(48,64), mode="bilinear")(output_task) # convert torch to numpy
+                output_task = output_task.cpu().data.numpy()  # convert torch to numpy
+                # Appending feature maps of one image and one task to the all_task_dictionary
+                # all_task_dictionary[task] = np.append(all_task_dictionary[task], output_task, axis=0) 
+                all_task_dictionary[task].append(output_task)
+
+                # print("all task DIC: ", len(all_task_dictionary[task]))
+
+                # saving feature maps of one image 
+                np.save(results_path + "/" + str(task) + "/" + meta["image"][0] + ".npy", output_task, allow_pickle=True) 
             else:
                 output_task = get_output(output[task], task, feature_extraction).cpu().data.numpy() 
                 for jj in range(int(inputs.size()[0])):
@@ -234,6 +250,8 @@ def save_model_predictions(p, val_loader, model, feature_extraction, save_name):
                         sio.savemat(os.path.join(save_dirs[task], fname + '.mat'), {'depth': result})
                     else:
                         imageio.imwrite(os.path.join(save_dirs[task], fname + '.png'), result.astype(np.uint8))
+    
+    np.save(results_path + "/all_task_dictionary.npy", all_task_dictionary)
         
 def eval_all_results(p):
     """ Evaluate results for every task by reading the predictions from the save dir """
