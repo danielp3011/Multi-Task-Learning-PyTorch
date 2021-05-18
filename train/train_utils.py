@@ -48,7 +48,8 @@ def train_vanilla(p, train_loader, model, criterion, optimizer, epoch):
     
     for i, batch in enumerate(train_loader):
         # Forward pass
-        images = batch['image'].cuda(non_blocking=True)
+        images = batch['image'].cuda(non_blocking=True) 
+        # print("BATCH: ", batch)
         targets = {task: batch[task].cuda(non_blocking=True) for task in p.ALL_TASKS.NAMES}
         output = model(images)
         

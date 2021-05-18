@@ -55,18 +55,21 @@ class ProgressMeter(object):
         return '[' + fmt + '/' + fmt.format(num_batches) + ']'
 
 
-def get_output(output, task):
+def get_output(output, task, feature_extraction):
     output = output.permute(0, 2, 3, 1)
+    
+    if feature_extraction: 
+        return output 
     
     if task == 'normals':
         output = (F.normalize(output, p = 2, dim = 3) + 1.0) * 255 / 2.0
-    
+
     elif task in {'semseg', 'human_parts'}:
         _, output = torch.max(output, dim=3)
-    
+
     elif task in {'edge', 'sal'}:
         output = torch.squeeze(255 * 1 / (1 + torch.exp(-output)))
-    
+
     elif task in {'depth'}:
         pass
     

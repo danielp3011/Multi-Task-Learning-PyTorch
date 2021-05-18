@@ -1,0 +1,31 @@
+################################### Old notes:
+/content/drive/MyDrive/Masterarbeit_Roig/repos/Multi-Task-Learning-PyTorch
+
+CUDA_VISIBLE_DEVICES=0,2,3 python3 main.py --config_env configs/env.yml --config_exp configs/pascal/hrnet18/mti_net.yml --save_name aux_task=source_tasks/mti_net=Dsn_Dsl_Dhp=Dss
+
+änderungen im main.py, config.py, in der mti.yml-datei!!!!
+
+CUDA_VISIBLE_DEVICES=0 python3 main.py --config_env configs/env.yml --config_exp configs/pascal/hrnet18/mti_net.yml --save_name new_all_aux__mti_net=Dss_Dsn_Dhp=Dsl_aux=all
+
+
+
+################################### New notes: 
+1) create feature_extraction
+
+nyud
+- first for sample_mode=small
+CUDA_VISIBLE_DEVICES=1 python3 main_feature_extraction.py --config_env configs/env.yml --config_exp configs/nyud/hrnet18/mti_net.yml --save_name Dsn_Dde=Dss
+- second for sample_mode=normal !! change sample_mode in evaluate_utils.py !!
+- the repeat the shell command above
+
+pascal
+CUDA_VISIBLE_DEVICES=1 python3 main_feature_extraction.py --config_env configs/env.yml --config_exp configs/pascal/hrnet18/mti_net.yml --save_name aux_task=source_tasks/mti_net=Dsn_Dsl_Dhp=Dss
+
+2) create rdms
+- small 24-32
+python3 computeDDS_mtlpt_NYUD.py -d all_source_tasks_24-32 -fd /home/data2/yd/results_yd/mtlpt/NYUD/hrnet_w18/mti_net/Dsn_Dde=Dss/feature_maps -sd /home/data2/yd/results_yd/mtlpt/NYUD/hrnet_w18/mti_net/Dsn_Dde=Dss -num_images
+- normal 48-64
+python3 computeDDS_mtlpt_NYUD.py -d all_source_tasks_48-64 -fd /home/data2/yd/results_yd/mtlpt/NYUD/hrnet_w18/mti_net/Dsn_Dde=Dss/feature_maps -sd /home/data2/yd/results_yd/mtlpt/NYUD/hrnet_w18/mti_net/Dsn_Dde=Dss -num_images
+
+3)
+python3 correlation_between_rdms_of_dif_size.py -r1 /home/data2/yd/results_yd/mtlpt/NYUD/hrnet_w18/mti_net/Dsn_Dde=Dss/rdms/24-32

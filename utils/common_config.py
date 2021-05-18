@@ -265,7 +265,7 @@ def get_val_dataloader(p, dataset):
     """ Return the validation dataloader """
 
     testloader = DataLoader(dataset, batch_size=p['valBatch'], shuffle=False, drop_last=False,
-                            num_workers=p['nworkers'])
+                            num_workers=p['nworkers']) 
     return testloader
 
 
