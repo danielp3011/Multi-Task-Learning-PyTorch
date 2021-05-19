@@ -253,6 +253,8 @@ def save_model_predictions(p, val_loader, model, feature_extraction, save_name):
 
                 # saving feature maps of one image 
                 np.save(results_path + "/" + str(task) + "/" + meta["image"][0] + ".npy", output_task, allow_pickle=True) 
+
+
             else:
                 output_task = get_output(output[task], task, feature_extraction).cpu().data.numpy() 
                 for jj in range(int(inputs.size()[0])):
@@ -264,18 +266,19 @@ def save_model_predictions(p, val_loader, model, feature_extraction, save_name):
                         sio.savemat(os.path.join(save_dirs[task], fname + '.mat'), {'depth': result})
                     else:
                         imageio.imwrite(os.path.join(save_dirs[task], fname + '.png'), result.astype(np.uint8))
-    print()
-    print("before:", all_task_dictionary)
-    for key, value in all_task_dictionary.items():
-        all_task_dictionary[key] = np.array(value)
-        print(all_task_dictionary[key].shape)
-    print()
-    print("after:", all_task_dictionary)
-    print()
-    print()
-    
-    np.save(results_path + "/all_source_tasks_"+ str(downsample_size[0])+"-"+str(downsample_size[1]) + ".npy", all_task_dictionary)
+    if feature_extraction:
+        print()
+        print("before:", all_task_dictionary)
+        for key, value in all_task_dictionary.items():
+            all_task_dictionary[key] = np.array(value)
+            print(all_task_dictionary[key].shape)
+        print()
+        print("after:", all_task_dictionary)
+        print()
+        print()
         
+        np.save(results_path + "/all_source_tasks_"+ str(downsample_size[0])+"-"+str(downsample_size[1]) + ".npy", all_task_dictionary)
+            
 def eval_all_results(p):
     """ Evaluate results for every task by reading the predictions from the save dir """
     save_dir = p['save_dir'] 
