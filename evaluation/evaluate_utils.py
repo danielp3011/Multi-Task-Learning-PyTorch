@@ -201,8 +201,8 @@ def save_model_predictions(p, val_loader, model, feature_extraction, save_name):
 
     if feature_extraction:  # setup for feature extraction 
          ##################################
-        downsample_mode = "small"
-        # downsample_mode = "normal"
+        # downsample_mode = "small"
+        downsample_mode = "normal"
         ##################################
         # change size of downsampled image: (48,64) or (24,32)
         if downsample_mode == "normal":
@@ -212,12 +212,18 @@ def save_model_predictions(p, val_loader, model, feature_extraction, save_name):
         
         all_task_dictionary = {}  # create dictionary to hold all feature maps of all images and all tasks 
         for task in p.TASKS.NAMES:
-            results_path = "/home/data2/yd/results_yd/mtlpt/" + p['val_db_name'] + "/" + p["backbone"] + "/" + p["model"] +"/"+ save_name + "/feature_maps/"+ str(downsample_size[0])+"-"+str(downsample_size[1])+"/"+ str(task)
+            if p['setup']  == "multi_task":
+                results_path = "/home/data2/yd/results_yd/mtlpt/" + p['val_db_name'] + "/" + p["backbone"] + "/" + p["model"] +"/"+ save_name + "/feature_maps/"+ str(downsample_size[0])+"-"+str(downsample_size[1])+"/"+ str(task)
+            elif p['setup'] == "single_task":
+                results_path = "/home/data2/yd/results_yd/mtlpt/" + p['val_db_name'] + "/" + p["backbone"] + "/" + p["setup"] +"/"+ save_name + "/feature_maps/"+ str(downsample_size[0])+"-"+str(downsample_size[1])+"/"+ str(task)
             mkdir_if_missing(results_path)
 
             # all_task_dictionary[task] = np.array([])  # initialize empty dictionary entry per task 
             all_task_dictionary[task] = []
-        results_path = "/home/data2/yd/results_yd/mtlpt/" + p['val_db_name'] + "/" + p["backbone"] + "/" + p["model"] +"/"+ save_name + "/feature_maps/"+ str(downsample_size[0])+"-"+str(downsample_size[1])+"/"
+        if p['setup'] == 'multi_task':
+            results_path = "/home/data2/yd/results_yd/mtlpt/" + p['val_db_name'] + "/" + p["backbone"] + "/" + p["model"] +"/"+ save_name + "/feature_maps/"+ str(downsample_size[0])+"-"+str(downsample_size[1])+"/"
+        elif p['setup'] == 'single_task':
+            results_path = "/home/data2/yd/results_yd/mtlpt/" + p['val_db_name'] + "/" + p["backbone"] + "/" + p["setup"] +"/"+ save_name + "/feature_maps/"+ str(downsample_size[0])+"-"+str(downsample_size[1])+"/"
     print('Save model predictions to {}'.format(p['save_dir']))
     model.eval()
     tasks = p.TASKS.NAMES
@@ -277,7 +283,11 @@ def save_model_predictions(p, val_loader, model, feature_extraction, save_name):
         print()
         print()
         
-        np.save(results_path + "/all_source_tasks_"+ str(downsample_size[0])+"-"+str(downsample_size[1]) + ".npy", all_task_dictionary)
+        # np.save(results_path + "/all_source_tasks_"+ str(downsample_size[0])+"-"+str(downsample_size[1]) + ".npy", all_task_dictionary)
+
+        from yd_utils.pickle_funcs import save_dict
+        save_dict(results_path + "/all_source_tasks_"+ str(downsample_size[0])+"-"+str(downsample_size[1]) + "pickle.npy", all_task_dictionary)
+
             
 def eval_all_results(p):
     """ Evaluate results for every task by reading the predictions from the save dir """

@@ -91,6 +91,10 @@ def main():
     # Evaluate best model at the end
     print(colored('Evaluating best model at the end', 'blue'))
     model.load_state_dict(torch.load(p['best_model'])) 
+    
+    # Uncomment the following 2 lines to see the model architecture
+    # print(model)
+    # sys.exit()
 
     # Load all task decoders without last layer & replace model in decoder head with decoder, that doesn´t has last head
     if p["setup"] == "single_task": 
@@ -100,6 +104,7 @@ def main():
         for task_name in p.TASKS.NAMES: 
             model.module.heads[task_name].last_layer = torch.nn.Sequential(*list(model.module.heads[task_name].last_layer.children())[:-1])    
             print("MULTI-TASK") 
+    
         
     # Load all task decoders without last layer 
     #human_parts = torch.nn.Sequential(*list(model.module.heads.human_parts.last_layer.children())[:-1])
