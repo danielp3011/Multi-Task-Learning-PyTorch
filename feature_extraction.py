@@ -44,11 +44,10 @@ model.load_state_dict(torch.load(p['best_model']))
 # model.module.heads.normals.last_layer = normals_decoder 
 
 # Feature Extraction after Initial task predictions 
-new_model = torch.nn.Sequential(*list(model.module.children()))  # model with last layer initial task predictions 
+new_model = torch.nn.Sequential(*list(model.module.modules())[:-5])  # model with last layer initial task predictions 
 
 # print(new_model) 
-print(new_model)
-
+print(model)
 # class FeatureExtractor(nn.Module): 
 #     def __init__(self, model):
 #         super(FeatureExtractor, self).__init__() 
