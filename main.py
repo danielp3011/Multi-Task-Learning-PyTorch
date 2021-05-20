@@ -117,7 +117,7 @@ def main():
 
         # Train 
         print('Train ...')
-        eval_train = train_vanilla(p, train_dataloader, model, criterion, optimizer, epoch)
+        eval_train = train_vanilla(p, train_dataloader, model, criterion, optimizer, epoch, feature_extraction)  # feature_extraction boolean included
 
         # Evaluate
             # Check if need to perform eval first

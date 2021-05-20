@@ -37,7 +37,7 @@ def get_loss_meters(p):
     return losses
 
 
-def train_vanilla(p, train_loader, model, criterion, optimizer, epoch):
+def train_vanilla(p, train_loader, model, criterion, optimizer, epoch, feature_extraction):
     """ Vanilla training with fixed loss weights """
     losses = get_loss_meters(p)
     performance_meter = PerformanceMeter(p)
@@ -57,7 +57,7 @@ def train_vanilla(p, train_loader, model, criterion, optimizer, epoch):
         loss_dict = criterion(output, targets)
         for k, v in loss_dict.items():
             losses[k].update(v.item())
-        performance_meter.update({t: get_output(output[t], t) for t in p.TASKS.NAMES}, 
+        performance_meter.update({t: get_output(output[t], t, feature_extraction) for t in p.TASKS.NAMES}, 
                                  {t: targets[t] for t in p.TASKS.NAMES})
         
         # Backward

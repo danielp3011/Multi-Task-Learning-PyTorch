@@ -175,7 +175,7 @@ def validate_results(p, current, reference):
 
 
 @torch.no_grad()
-def eval_model(p, val_loader, model):
+def eval_model(p, val_loader, model, feature_extraction):
     """ Evaluate model in an online fashion without storing the predictions to disk """
     tasks = p.TASKS.NAMES
     performance_meter = PerformanceMeter(p)

@@ -35,16 +35,19 @@ model.load_state_dict(torch.load(p['best_model']))
 
 # Load all task decoders without last layer
 #semseg_decoder = torch.nn.Sequential(*list(model.module.heads.semseg.last_layer.children())[:-1])
-depth_decoder = torch.nn.Sequential(*list(model.module.heads.depth.last_layer.children())[:-1])
-normals_decoder = torch.nn.Sequential(*list(model.module.heads.normals.last_layer.children())[:-1])
+# depth_decoder = torch.nn.Sequential(*list(model.module.heads.depth.last_layer.children())[:-1])
+# normals_decoder = torch.nn.Sequential(*list(model.module.heads.normals.last_layer.children())[:-1])
 
 # Replace model in decoder head with decoder, that doesn´t has last head
 #model.module.heads.semseg.last_layer = semseg_decoder
-model.module.heads.depth.last_layer = depth_decoder
-model.module.heads.normals.last_layer = normals_decoder 
+# model.module.heads.depth.last_layer = depth_decoder
+# model.module.heads.normals.last_layer = normals_decoder 
 
-print(model)
+# Feature Extraction after Initial task predictions 
+new_model = torch.nn.Sequential(*list(model.module.children()))  # model with last layer initial task predictions 
 
+# print(new_model) 
+print(new_model)
 
 # class FeatureExtractor(nn.Module): 
 #     def __init__(self, model):

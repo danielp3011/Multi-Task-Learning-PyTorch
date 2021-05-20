@@ -26,12 +26,12 @@ head: hrnet
 
 # Tasks
 task_dictionary:
-   include_semseg: True
+   include_semseg: False
    include_depth: True 
    include_normals: True
 
 auxilary_task_dictionary:
-   include_semseg: True 
+   include_semseg: False  
    include_depth: True 
    include_normals: True 
 
