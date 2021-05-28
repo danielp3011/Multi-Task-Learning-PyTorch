@@ -1,4 +1,4 @@
-# Tutorial based on: https://pytorch.org/tutorials/beginner/saving_loading_models.html
+ # Tutorial based on: https://pytorch.org/tutorials/beginner/saving_loading_models.html
 
 from models.mti_net import MTINet 
 from models.models import SingleTaskModel, MultiTaskModel 
@@ -24,10 +24,54 @@ model = torch.nn.DataParallel(model)
 model = model.cuda()  # device=device)
 model.load_state_dict(torch.load(p['best_model']))
 
-new_model = model 
 
-new_model = nn.Sequential(*list(model.children())[:-5])
-print(new_model)
+for i in model.named_modules(): 
+    print(type(i))
+# print(model.module.scale_3.decoders)
+# test = [module for module in model.modules() if isinstance(model.module.scale_3.decoders, nn.Sequential)] 
+# print(test)
+# class FeatureExtractor(nn.Module): 
+#     def __init__(self): 
+#         super(FeatureExtractor, self).__init__() 
+#         p = create_config("configs/env.yml", "configs/nyud/hrnet18/mti_net.yml", "Dsn_Dde=Dss")   
+#         model = get_model(p) 
+#         model = torch.nn.DataParallel(model)
+#         model = model.cuda()  # device=device)
+#         model.load_state_dict(torch.load(p['best_model']))
+#         self.net = model 
+       
+#         self.features = nn.Sequential(*list(self.net.children())[:-1]) 
+    
+#     def forward(self, x): 
+#         return self.features(x) 
+
+# test = FeatureExtractor() 
+# pa = torch.randn(1, 3, 224, 224) 
+# print(pa)
+
+# class FeatureExtractor2(nn.Module):
+#     def __init__(self, submodule, extracted_layers):
+#         self.submodule = submodule
+
+#     def forward(self, x):
+#         outputs = []
+#         for name, module in self.submodule._modules.items():
+#             x = module(x)
+#             if name in self.extracted_layers:
+#                 outputs += [x]
+#         return outputs + [x]
+
+    # # print(model)
+# for layer, params in model.named_parameters():
+#     print(layer)
+
+# for i, x in (nn.Sequential(model.module())):
+#     print(i)
+#     print(x)
+#     break 
+
+# new_model = nn.Sequential(*list(model.module.children())[:-5])
+# print(new_model)
 # class feature_extractor(nn.Module): 
 #     def __init__(self, output_layer=None): 
 #         super().__init__() 
@@ -51,7 +95,6 @@ print(new_model)
 #     else:
 #         count += 1 
 
-# print(len(list(model.named_parameters())))
 
 # for i in range(1, len(list(model.named_parameters()))): 
 #     new_model = model._modules["module"].pop(list(model.named_parameters[-i]))
