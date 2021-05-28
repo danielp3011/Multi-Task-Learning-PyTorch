@@ -92,14 +92,26 @@ def main():
     print(colored('Evaluating best model at the end', 'blue'))
     model.load_state_dict(torch.load(p['best_model'])) 
     
-    # Load all task decoders without last layer & replace model in decoder head with decoder, that doesn´t has last head
-    if p["setup"] == "single_task": 
-        model.module.decoder.last_layer = torch.nn.Sequential(*list(model.module.decoder.last_layer.children())[:-1])    
-        print("SINGLE TASK")
-    else:
-        for task_name in p.TASKS.NAMES: 
-            model.module.heads[task_name].last_layer = torch.nn.Sequential(*list(model.module.heads[task_name].last_layer.children())[:-1])    
-            print("MULTI-TASK") 
+    if "feature_extract_final":
+        # Load all task decoders without last layer & replace model in decoder head with decoder, that doesn´t has last head
+        if p["setup"] == "single_task": 
+            model.module.decoder.last_layer = torch.nn.Sequential(*list(model.module.decoder.last_layer.children())[:-1])    
+            print("SINGLE TASK")
+        else:
+            for task_name in p.TASKS.NAMES: 
+                model.module.heads[task_name].last_layer = torch.nn.Sequential(*list(model.module.heads[task_name].last_layer.children())[:-1])    
+                print("MULTI-TASK") 
+    
+    elif "feature_extract_scale":
+        scales = [0,1,2,3]
+        for sc in scales:
+            if p["setup"] == "single_task": 
+                print("SINGLE TASK - no extraction at different scales!")
+                sys.exit()
+            else:
+                new_model = torch.nn.Sequential(*list(model.module.modules())[:-5])
+                print("MULTI-TASK") 
+
         
     # Load all task decoders without last layer 
     #human_parts = torch.nn.Sequential(*list(model.module.heads.human_parts.last_layer.children())[:-1])

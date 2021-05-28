@@ -34,9 +34,14 @@ python3 computeDDS_mtlpt_NYUD.py -d all_source_tasks_48-64 -fd /home/data2/yd/re
 
 Pascal:
 - small 24-32
-python3 computeDDS_mtlpt_Pascal.py -d all_source_tasks_24-32 -fd /home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/mti_net/aux_task=source_tasks/mti_net=Dsn_Dsl_Dhp=Dss/feature_maps -sd /home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/mti_net/aux_task=source_tasks/mti_net=Dsn_Dsl_Dhp=Dss --num_images 200
+python3 computeDDS_mtlpt_Pascal.py -d all_source_tasks_24-32 -fd /home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/mti_net/aux_task=source_tasks/mti_net=Dsn_Dsl_Dhp=Dss/feature_maps -sd /home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/mti_net/aux_task=source_tasks/mti_net=Dsn_Dsl_Dhp=Dss --num_images 500 --num_imgs_features 2000
+
 -normal 48-64
-python3 computeDDS_mtlpt_Pascal.py -d all_source_tasks_48-64 -fd /home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/mti_net/aux_task=source_tasks/mti_net=Dsn_Dsl_Dhp=Dss/feature_maps -sd /home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/mti_net/aux_task=source_tasks/mti_net=Dsn_Dsl_Dhp=Dss --num_images 200
+python3 computeDDS_mtlpt_Pascal.py -d all_source_tasks_48-64 -fd /home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/mti_net/aux_task=source_tasks/mti_net=Dsn_Dsl_Dhp=Dss/feature_maps -sd /home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/mti_net/aux_task=source_tasks/mti_net=Dsn_Dsl_Dhp=Dss --num_images 500 --num_imgs_features 2000
 
 3)
+nyud:
 python3 correlation_between_rdms_of_dif_size.py -r1 /home/data2/yd/results_yd/mtlpt/NYUD/hrnet_w18/mti_net/Dsn_Dde=Dss/rdms/24-32
+
+pascal:
+python3 correlation_between_rdms_of_dif_size.py -r1 /home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/mti_net/aux_task=source_tasks/mti_net=Dsn_Dsl_Dhp=Dss/rdms/24-32/500 -n 500

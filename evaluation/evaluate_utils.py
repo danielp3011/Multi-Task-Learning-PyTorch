@@ -283,10 +283,10 @@ def save_model_predictions(p, val_loader, model, feature_extraction, save_name):
         print()
         print()
         
-        # np.save(results_path + "/all_source_tasks_"+ str(downsample_size[0])+"-"+str(downsample_size[1]) + ".npy", all_task_dictionary)
+        np.save(results_path + "/all_source_tasks_"+ str(downsample_size[0])+"-"+str(downsample_size[1]) + "_no_pickle.npy", all_task_dictionary, allow_pickle=False)
 
-        from yd_utils.pickle_funcs import save_dict
-        save_dict(results_path + "/all_source_tasks_"+ str(downsample_size[0])+"-"+str(downsample_size[1]) + "pickle.npy", all_task_dictionary)
+        # from yd_utils.pickle_funcs import save_dict
+        # save_dict(results_path + "/all_source_tasks_"+ str(downsample_size[0])+"-"+str(downsample_size[1]) + ".npy", all_task_dictionary)
 
             
 def eval_all_results(p):
