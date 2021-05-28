@@ -1,9 +1,9 @@
 import pickle
 
 
-def save_dict(di_, filename_):
+def save_dict(filename_, di_):
     with open(filename_, 'wb') as f:
-        pickle.dump(di_, f)
+        pickle.dump(di_, f, protocol=pickle.HIGHEST_PROTOCOL)
 
 def load_dict(filename_):
     with open(filename_, 'rb') as f:

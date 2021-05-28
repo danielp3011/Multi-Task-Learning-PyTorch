@@ -120,11 +120,38 @@ for i in model.named_modules():
 # model.module.heads.normals.last_layer = normals_decoder 
 
 # Feature Extraction after Initial task predictions 
+new_model = torch.nn.Sequential(*list(model.module.modules())[:-5])  # model for feature extraction
 
 
+print(new_model)
 
-# print(new_model) 
+with open('new_model2.txt', 'w') as f:
+    print('Filename:', new_model, file=f)  # Python 3.x 
+
+with open('model.txt2', 'w') as f:
+    print('Filename:', model, file=f)  # Python 3.x 
+
+# for c in model.module.children():
+#     print(c)
+#     print("##########################################################")
+    
+
+# print("modules")
+# for c in model.module.modules():
+#     print(c) 
+#     print("##########################################################")
+#     break
+
+# for name, layer in new_model.named_modules():
+#     print(name)
+
 # class FeatureExtractor(nn.Module): 
 #     def __init__(self, model):
 #         super(FeatureExtractor, self).__init__() 
 
+
+
+# for layer in list(model):
+#     if isinstance()
+
+print(list(model)
