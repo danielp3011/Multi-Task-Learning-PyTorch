@@ -24,7 +24,40 @@ model = torch.nn.DataParallel(model)
 model = model.cuda()  # device=device)
 model.load_state_dict(torch.load(p['best_model']))
 
+new_model = model 
 
+new_model = nn.Sequential(*list(model.children())[:-5])
+print(new_model)
+# class feature_extractor(nn.Module): 
+#     def __init__(self, output_layer=None): 
+#         super().__init__() 
+#         self.p = create_config("configs/env.yml", "configs/nyud/hrnet18/mti_net.yml", "Dsn_Dde=Dss")   
+#         self.model = get_model(p)  
+#         self.model = torch.nn.DataParallel(model) 
+#         model = model.cuda() 
+#         model.load_state_dict(torch.load(p["best_model"])) 
+
+#         self.output_layer = output_layer 
+#         self.layer = list(model.named_parameters()) 
+#         self.layer_count = 0 
+#         for l in self.layers
+
+# count = 0 
+# output_layer = "module.scale_3.decoders.depth.bias"
+# for layer in model.named_parameters(): 
+#     name, _ = layer
+#     if name == output_layer:
+#         break  
+#     else:
+#         count += 1 
+
+# print(len(list(model.named_parameters())))
+
+# for i in range(1, len(list(model.named_parameters()))): 
+#     new_model = model._modules["module"].pop(list(model.named_parameters[-i]))
+# new = model 
+# print(new["module.scale_3.decoders.depth.bias"]) 
+# print(list(model.named_parameters())[0])
 # # Transforms 
 # train_transforms, val_transforms = get_transformations(p)
 # train_dataset = get_train_dataset(p, train_transforms)
