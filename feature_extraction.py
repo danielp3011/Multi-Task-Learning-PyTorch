@@ -24,9 +24,15 @@ model = torch.nn.DataParallel(model)
 model = model.cuda()  # device=device)
 model.load_state_dict(torch.load(p['best_model']))
 
+print(model)
 
-for i in model.named_modules(): 
-    print(type(i))
+# new_model = nn.Sequential() 
+# if isinstance(model.module.scale_3.decoders.depth, nn.Conv2d): 
+#     print(True)
+# else: 
+#     print(False)
+# for i in model.named_modules()[:-5]: 
+#     print(type(i))
 # print(model.module.scale_3.decoders)
 # test = [module for module in model.modules() if isinstance(model.module.scale_3.decoders, nn.Sequential)] 
 # print(test)
@@ -70,8 +76,6 @@ for i in model.named_modules():
 #     print(x)
 #     break 
 
-# new_model = nn.Sequential(*list(model.module.children())[:-5])
-# print(new_model)
 # class feature_extractor(nn.Module): 
 #     def __init__(self, output_layer=None): 
 #         super().__init__() 
@@ -120,16 +124,16 @@ for i in model.named_modules():
 # model.module.heads.normals.last_layer = normals_decoder 
 
 # Feature Extraction after Initial task predictions 
-new_model = torch.nn.Sequential(*list(model.module.modules())[:-5])  # model for feature extraction
+# new_model = torch.nn.Sequential(*list(model.module.modules())[:-5])  # model for feature extraction
 
 
-print(new_model)
+# print(new_model)
 
-with open('new_model2.txt', 'w') as f:
-    print('Filename:', new_model, file=f)  # Python 3.x 
+# with open('new_model2.txt', 'w') as f:
+#     print('Filename:', new_model, file=f)  # Python 3.x 
 
-with open('model.txt2', 'w') as f:
-    print('Filename:', model, file=f)  # Python 3.x 
+# with open('model.txt2', 'w') as f:
+#     print('Filename:', model, file=f)  # Python 3.x 
 
 # for c in model.module.children():
 #     print(c)
@@ -154,4 +158,3 @@ with open('model.txt2', 'w') as f:
 # for layer in list(model):
 #     if isinstance()
 
-print(list(model)

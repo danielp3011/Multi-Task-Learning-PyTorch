@@ -175,7 +175,7 @@ def validate_results(p, current, reference):
 
 
 @torch.no_grad()
-def eval_model(p, val_loader, model, feature_extraction):
+def eval_model(p, val_loader, model, feature_extraction_type):
     """ Evaluate model in an online fashion without storing the predictions to disk """
     tasks = p.TASKS.NAMES
     performance_meter = PerformanceMeter(p)
@@ -196,34 +196,20 @@ def eval_model(p, val_loader, model, feature_extraction):
 
 
 @torch.no_grad()
-def save_model_predictions(p, val_loader, model, feature_extraction, save_name):
+def save_model_predictions(p, val_loader, model, feature_extraction_type, save_name):
     """ Save model predictions for all tasks """
 
-    if feature_extraction:  # setup for feature extraction 
+    if (feature_extraction_type == "final" or feature_extraction_type == "scales"):  # when we do feature extraction  
          ##################################
-        # downsample_mode = "small"
-        downsample_mode = "normal"
+        downsample_mode = "small"
+        # downsample_mode = "normal" 
         ##################################
         # change size of downsampled image: (48,64) or (24,32)
         if downsample_mode == "normal":
             downsample_size = (48,64) 
         elif downsample_mode == "small":
-            downsample_size = (24,32) 
+            downsample_size = (24,32)             
         
-        all_task_dictionary = {}  # create dictionary to hold all feature maps of all images and all tasks 
-        for task in p.TASKS.NAMES:
-            if p['setup']  == "multi_task":
-                results_path = "/home/data2/yd/results_yd/mtlpt/" + p['val_db_name'] + "/" + p["backbone"] + "/" + p["model"] +"/"+ save_name + "/feature_maps/"+ str(downsample_size[0])+"-"+str(downsample_size[1])+"/"+ str(task)
-            elif p['setup'] == "single_task":
-                results_path = "/home/data2/yd/results_yd/mtlpt/" + p['val_db_name'] + "/" + p["backbone"] + "/" + p["setup"] +"/"+ save_name + "/feature_maps/"+ str(downsample_size[0])+"-"+str(downsample_size[1])+"/"+ str(task)
-            mkdir_if_missing(results_path)
-
-            # all_task_dictionary[task] = np.array([])  # initialize empty dictionary entry per task 
-            all_task_dictionary[task] = []
-        if p['setup'] == 'multi_task':
-            results_path = "/home/data2/yd/results_yd/mtlpt/" + p['val_db_name'] + "/" + p["backbone"] + "/" + p["model"] +"/"+ save_name + "/feature_maps/"+ str(downsample_size[0])+"-"+str(downsample_size[1])+"/"
-        elif p['setup'] == 'single_task':
-            results_path = "/home/data2/yd/results_yd/mtlpt/" + p['val_db_name'] + "/" + p["backbone"] + "/" + p["setup"] +"/"+ save_name + "/feature_maps/"+ str(downsample_size[0])+"-"+str(downsample_size[1])+"/"
     print('Save model predictions to {}'.format(p['save_dir']))
     model.eval()
     tasks = p.TASKS.NAMES
@@ -240,29 +226,46 @@ def save_model_predictions(p, val_loader, model, feature_extraction, save_name):
         # use for testing purposes
         # if ii > 5:
         #     break
-        
-        for task in tasks:
-            if feature_extraction: 
 
-                output_task = get_output(output[task], task, feature_extraction).cpu().data.numpy() 
-                output_task = torch.from_numpy(output_task).permute(0, 3, 1, 2)
-               
+        for task in tasks:
+            if (feature_extraction_type == "scales" and p['setup'] == 'multi_task'): 
+                results_path = "/home/data2/yd/results_yd/mtlpt/" + p['val_db_name'] + "/" + p["backbone"] + "/" + p["model"] +"/"+ save_name + "/feature_maps/" + str(downsample_size[0])+"-"+str(downsample_size[1]) + '/' + feature_extraction_type
                 
+                for scale in output['deep_supervision'].keys():
+                    # generating output
+                    output_task = get_output(output['deep_supervision'][scale][task], task, feature_extraction_type).cpu().data.numpy() 
+                    output_task = torch.from_numpy(output_task).permute(0, 3, 1, 2)
+                    output_task = torch.nn.Upsample(size=downsample_size, mode="bilinear")(output_task) # convert torch to numpy
+                    output_task = output_task.cpu().data.numpy()  # convert torch to numpy
+                    output_task = output_task.reshape(-1)
+                    
+                    tmp_path = os.path.join(results_path, scale, task)
+                    mkdir_if_missing(tmp_path)
+                    np.save(tmp_path + '/' + meta["image"][0] + ".npy", output_task, allow_pickle=True)
+
+            # extracting the features at the end of the mti model or single-task models
+            elif feature_extraction_type == "final": 
+                if p['setup'] == 'multi_task':
+                ### LOGIC ERROR in creation of folder if we use scale as feature type. Specific Scale Folder missing after "feature_extraction_type"
+                    results_path = "/home/data2/yd/results_yd/mtlpt/" + p['val_db_name'] + "/" + p["backbone"] + "/" + p["model"] +"/"+ save_name + "/feature_maps/"+ str(downsample_size[0])+"-"+str(downsample_size[1])+"/" + feature_extraction_type+'/'
+                elif p['setup'] == 'single_task':
+                    results_path = "/home/data2/yd/results_yd/mtlpt/" + p['val_db_name'] + "/" + p["backbone"] + "/" + p["setup"] +"/"+ save_name + "/feature_maps/"+ str(downsample_size[0])+"-"+str(downsample_size[1])+"/" + feature_extraction_type + '/'
+                # generating output
+                output_task = get_output(output[task], task, feature_extraction_type).cpu().data.numpy() 
+                output_task = torch.from_numpy(output_task).permute(0, 3, 1, 2)
                 output_task = torch.nn.Upsample(size=downsample_size, mode="bilinear")(output_task) # convert torch to numpy
                 output_task = output_task.cpu().data.numpy()  # convert torch to numpy
                 output_task = output_task.reshape(-1)
-                # Appending feature maps of one image and one task to the all_task_dictionary
-                # all_task_dictionary[task] = np.append(all_task_dictionary[task], output_task, axis=0) 
-                all_task_dictionary[task].append(output_task)
 
-                # print("all task DIC: ", len(all_task_dictionary[task]))
+                tmp_path = os.path.join(results_path, task) 
+                mkdir_if_missing(tmp_path)
+                np.save(tmp_path + "/" + meta["image"][0] + ".npy", output_task, allow_pickle=True) 
 
-                # saving feature maps of one image 
-                np.save(results_path + "/" + str(task) + "/" + meta["image"][0] + ".npy", output_task, allow_pickle=True) 
-
-
-            else:
-                output_task = get_output(output[task], task, feature_extraction).cpu().data.numpy() 
+            
+            
+            # no feature extraction here, this part is necessary for normal main.py
+            elif feature_extraction_type == "no_feature":  # "final"/"scales"/"no_feature"
+                output_task = get_output(output[task], task, feature_extraction_type).cpu().data.numpy() 
                 for jj in range(int(inputs.size()[0])):
                     if len(sample[task][jj].unique()) == 1 and sample[task][jj].unique() == 255:
                         continue
@@ -272,21 +275,22 @@ def save_model_predictions(p, val_loader, model, feature_extraction, save_name):
                         sio.savemat(os.path.join(save_dirs[task], fname + '.mat'), {'depth': result})
                     else:
                         imageio.imwrite(os.path.join(save_dirs[task], fname + '.png'), result.astype(np.uint8))
-    if feature_extraction:
-        print()
-        print("before:", all_task_dictionary)
-        for key, value in all_task_dictionary.items():
-            all_task_dictionary[key] = np.array(value)
-            print(all_task_dictionary[key].shape)
-        print()
-        print("after:", all_task_dictionary)
-        print()
-        print()
+    
+    
+    # depreceated code:
+    # if (feature_extraction_type == "final" or feature_extraction_type == "scales"):  # "final"/"scales"/"no_features" 
+    #     print()
+    #     print("before:", all_task_dictionary)
+    #     for key, value in all_task_dictionary.items():
+    #         all_task_dictionary[key] = np.array(value)
+    #         print(all_task_dictionary[key].shape)
+    #     print()
+    #     print("after:", all_task_dictionary)
+    #     print()
+    #     print()
         
-        np.save(results_path + "/all_source_tasks_"+ str(downsample_size[0])+"-"+str(downsample_size[1]) + "_no_pickle.npy", all_task_dictionary, allow_pickle=False)
+    #     np.save(results_path + "/all_source_tasks_"+ str(downsample_size[0])+"-"+str(downsample_size[1]) + "_no_pickle.npy", all_task_dictionary, allow_pickle=False)
 
-        # from yd_utils.pickle_funcs import save_dict
-        # save_dict(results_path + "/all_source_tasks_"+ str(downsample_size[0])+"-"+str(downsample_size[1]) + ".npy", all_task_dictionary)
 
             
 def eval_all_results(p):

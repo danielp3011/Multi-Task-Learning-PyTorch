@@ -41,7 +41,7 @@ args = parser.parse_args()
 def main():
 
     ################
-    feature_extraction = True
+    feature_extraction_type = "scales"  # "final"/"scales"/"no_feature"
     ################
 
     #try:
@@ -92,7 +92,7 @@ def main():
     print(colored('Evaluating best model at the end', 'blue'))
     model.load_state_dict(torch.load(p['best_model'])) 
     
-    if "feature_extract_final":
+    if feature_extraction_type == "final":
         # Load all task decoders without last layer & replace model in decoder head with decoder, that doesn´t has last head
         if p["setup"] == "single_task": 
             model.module.decoder.last_layer = torch.nn.Sequential(*list(model.module.decoder.last_layer.children())[:-1])    
@@ -102,17 +102,7 @@ def main():
                 model.module.heads[task_name].last_layer = torch.nn.Sequential(*list(model.module.heads[task_name].last_layer.children())[:-1])    
                 print("MULTI-TASK") 
     
-    elif "feature_extract_scale":
-        scales = [0,1,2,3]
-        for sc in scales:
-            if p["setup"] == "single_task": 
-                print("SINGLE TASK - no extraction at different scales!")
-                sys.exit()
-            else:
-                new_model = torch.nn.Sequential(*list(model.module.modules())[:-5])
-                print("MULTI-TASK") 
-
-        
+       
     # Load all task decoders without last layer 
     #human_parts = torch.nn.Sequential(*list(model.module.heads.human_parts.last_layer.children())[:-1])
     #semseg_decoder = torch.nn.Sequential(*list(model.module.heads.semseg.last_layer.children())[:-1])
@@ -131,7 +121,7 @@ def main():
     # print("MODELS: ", model)
 
     #print("Model state dict all: ", model.state_dict().items()) 
-    save_model_predictions(p, val_dataloader, model, feature_extraction, args.save_name)
+    save_model_predictions(p, val_dataloader, model, feature_extraction_type, args.save_name)
     # eval_stats = eval_all_results(p)
     send_email(target_mail_address_list, server_name=server_name, exception_message="Success!", successfully=True)
 
