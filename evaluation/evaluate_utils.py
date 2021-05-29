@@ -275,7 +275,9 @@ def save_model_predictions(p, val_loader, model, feature_extraction_type, save_n
                         sio.savemat(os.path.join(save_dirs[task], fname + '.mat'), {'depth': result})
                     else:
                         imageio.imwrite(os.path.join(save_dirs[task], fname + '.png'), result.astype(np.uint8))
-    
+
+            else: 
+                print("No feature extraction type defined")
     
     # depreceated code:
     # if (feature_extraction_type == "final" or feature_extraction_type == "scales"):  # "final"/"scales"/"no_features" 

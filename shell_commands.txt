@@ -15,7 +15,8 @@ CUDA_VISIBLE_DEVICES=0 python3 main.py --config_env configs/env.yml --config_exp
 nyud
 - first for sample_mode=small
 CUDA_VISIBLE_DEVICES=1 python3 main_feature_extraction.py --config_env configs/env.yml --config_exp configs/nyud/hrnet18/mti_net.yml --save_name Dsn_Dde=Dss
-- second for sample_mode=normal !! change sample_mode in evaluate_utils.py !!
+- second for sample_mode=normal !! change sample_mode in evaluate_utils.py !! 
+- change validation batch from 8 to 1 in yml-file
 - the repeat the shell command above
 - single_task: 
 CUDA_VISIBLE_DEVICES=1 python3 main_feature_extraction.py --config_env configs/env.yml --config_exp configs/nyud/hrnet18/depth.yml --save_name depth
