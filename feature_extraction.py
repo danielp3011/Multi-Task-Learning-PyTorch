@@ -124,7 +124,7 @@ print(model)
 # model.module.heads.normals.last_layer = normals_decoder 
 
 # Feature Extraction after Initial task predictions 
-# new_model = torch.nn.Sequential(*list(model.module.modules())[:-5])  # model for feature extraction
+# new_model = torch.nn.Sequential(*list(model.module.children())[:-5])  # model for feature extraction
 
 
 # print(new_model)
@@ -158,3 +158,4 @@ print(model)
 # for layer in list(model):
 #     if isinstance()
 
+# print(list(model))
