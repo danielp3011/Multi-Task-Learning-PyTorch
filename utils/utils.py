@@ -58,7 +58,7 @@ class ProgressMeter(object):
 def get_output(output, task, feature_extraction_type):
     output = output.permute(0, 2, 3, 1)
     
-    if (feature_extraction_type == "scale" or feature_extraction_type == "final"):  # "scale"/"final"/"no_features"
+    if (feature_extraction_type == "scales" or feature_extraction_type == "final"):  # "scale"/"final"/"no_features"
         return output 
     
     if task == 'normals':

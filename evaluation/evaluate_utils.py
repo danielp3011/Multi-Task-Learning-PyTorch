@@ -233,8 +233,11 @@ def save_model_predictions(p, val_loader, model, feature_extraction_type, save_n
                 
                 for scale in output['deep_supervision'].keys():
                     # generating output
+                    print("Output task with shape: ", output['deep_supervision'][scale][task].shape) 
                     output_task = get_output(output['deep_supervision'][scale][task], task, feature_extraction_type).cpu().data.numpy() 
+                    print("Output task with shape: ", output_task.shape) 
                     output_task = torch.from_numpy(output_task).permute(0, 3, 1, 2)
+                    print("Output task with shape: ", output_task.shape) 
                     output_task = torch.nn.Upsample(size=downsample_size, mode="bilinear")(output_task) # convert torch to numpy
                     output_task = output_task.cpu().data.numpy()  # convert torch to numpy
                     output_task = output_task.reshape(-1)
