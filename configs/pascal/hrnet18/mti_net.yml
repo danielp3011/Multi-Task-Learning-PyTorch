@@ -26,8 +26,8 @@ head: hrnet
 
 # Tasks
 task_dictionary:
-   include_semseg: False
-   include_human_parts: True
+   include_semseg: True
+   include_human_parts: False
    include_sal: True
    include_normals: True
    
@@ -35,8 +35,8 @@ task_dictionary:
    edge_w: 0.95
 
 auxilary_task_dictionary:
-   include_semseg: False
-   include_human_parts: True
+   include_semseg: True
+   include_human_parts: False
    include_sal: True
    include_normals: True
    
