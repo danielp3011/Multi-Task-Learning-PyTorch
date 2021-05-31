@@ -15,7 +15,8 @@ CUDA_VISIBLE_DEVICES=0 python3 main.py --config_env configs/env.yml --config_exp
 nyud
 - first for sample_mode=small
 CUDA_VISIBLE_DEVICES=1 python3 main_feature_extraction.py --config_env configs/env.yml --config_exp configs/nyud/hrnet18/mti_net.yml --save_name Dsn_Dde=Dss
-- second for sample_mode=normal !! change sample_mode in evaluate_utils.py !!
+- second for sample_mode=normal !! change sample_mode in evaluate_utils.py !! 
+- change validation batch from 8 to 1 in yml-file
 - the repeat the shell command above
 - single_task: 
 CUDA_VISIBLE_DEVICES=1 python3 main_feature_extraction.py --config_env configs/env.yml --config_exp configs/nyud/hrnet18/depth.yml --save_name depth
@@ -35,10 +36,9 @@ python3 computeDDS_mtlpt_NYUD.py -d all_source_tasks_48-64 -fd /home/data2/yd/re
 
 Pascal:
 - small 24-32
-python3 computeDDS_mtlpt_Pascal.py -d all_source_tasks_24-32 -fd /home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/mti_net/aux_task=source_tasks/mti_net=Dsn_Dsl_Dhp=Dss/feature_maps -sd /home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/mti_net/aux_task=source_tasks/mti_net=Dsn_Dsl_Dhp=Dss --num_images 500 --num_imgs_features 2000
-
+python3 computeDDS_mtlpt.py -d all_source_tasks_24-32 -fd /home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/mti_net/aux_task=source_tasks/mti_net=Dsn_Dsl_Dhp=Dss/ -sd /home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/mti_net/aux_task=source_tasks/mti_net=Dsn_Dsl_Dhp=Dss --num_images 500 --num_imgs_features 2000 -l final
 -normal 48-64
-python3 computeDDS_mtlpt_Pascal.py -d all_source_tasks_48-64 -fd /home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/mti_net/aux_task=source_tasks/mti_net=Dsn_Dsl_Dhp=Dss/feature_maps -sd /home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/mti_net/aux_task=source_tasks/mti_net=Dsn_Dsl_Dhp=Dss --num_images 500 --num_imgs_features 2000
+python3 computeDDS_mtlpt.py -d all_source_tasks_48-64 -fd /home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/mti_net/aux_task=source_tasks/mti_net=Dsn_Dsl_Dhp=Dss/feature_maps -sd /home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/mti_net/aux_task=source_tasks/mti_net=Dsn_Dsl_Dhp=Dss --num_images 500 --num_imgs_features 2000
 
 3)
 nyud:

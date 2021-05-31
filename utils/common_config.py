@@ -5,7 +5,8 @@
 import os
 import copy
 import torch
-import torch.nn.functional as F
+import torch.nn.functional as F 
+import numpy as np 
 
 from torchvision import transforms
 from torch.utils.data import DataLoader
