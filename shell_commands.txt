@@ -22,7 +22,7 @@ CUDA_VISIBLE_DEVICES=1 python3 main_feature_extraction.py --config_env configs/e
 CUDA_VISIBLE_DEVICES=1 python3 main_feature_extraction.py --config_env configs/env.yml --config_exp configs/nyud/hrnet18/depth.yml --save_name depth
 
 pascal
-CUDA_VISIBLE_DEVICES=1 python3 main_feature_extraction.py --config_env configs/env.yml --config_exp configs/pascal/hrnet18/mti_net.yml --save_name aux_task=source_tasks/mti_net=Dsn_Dsl_Dhp=Dss
+CUDA_VISIBLE_DEVICES=3 python3 main_feature_extraction.py --config_env configs/env.yml --config_exp configs/pascal/hrnet18/mti_net.yml --save_name aux_task=source_tasks/mti_net=Dsn_Dsl_Dhp=Dss
 
 -single task: 
 CUDA_VISIBLE_DEVICES=2 python3 main_feature_extraction.py --config_env configs/env.yml --config_exp configs/pascal/hrnet18/normals.yml --save_name normals
