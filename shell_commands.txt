@@ -27,14 +27,7 @@ CUDA_VISIBLE_DEVICES=1 python3 main_feature_extraction.py --config_env configs/e
 -single task: 
 CUDA_VISIBLE_DEVICES=2 python3 main_feature_extraction.py --config_env configs/env.yml --config_exp configs/pascal/hrnet18/normals.yml --save_name normals
 
-2) create rdms
-NYUD:
-- small 24-32
-python3 computeDDS_mtlpt_NYUD.py -d all_source_tasks_24-32 -fd /home/data2/yd/results_yd/mtlpt/NYUD/hrnet_w18/mti_net/Dsn_Dde=Dss/feature_maps -sd /home/data2/yd/results_yd/mtlpt/NYUD/hrnet_w18/mti_net/Dsn_Dde=Dss --num_images 200
-- normal 48-64
-python3 computeDDS_mtlpt_NYUD.py -d all_source_tasks_48-64 -fd /home/data2/yd/results_yd/mtlpt/NYUD/hrnet_w18/mti_net/Dsn_Dde=Dss/feature_maps -sd /home/data2/yd/results_yd/mtlpt/NYUD/hrnet_w18/mti_net/Dsn_Dde=Dss --num_images 200
-
-Pascal:
+2) create rdms for NYUD and PASCALContext
 - small 24-32
 python3 computeDDS_mtlpt.py -d all_source_tasks_24-32 -fd /home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/mti_net/aux_task=source_tasks/mti_net=Dsn_Dsl_Dhp=Dss/ -sd /home/data2/yd/results_yd/mtlpt/PASCALContext/hrnet_w18/mti_net/aux_task=source_tasks/mti_net=Dsn_Dsl_Dhp=Dss --num_images 500 --num_imgs_features 2000 -l final
 -normal 48-64
