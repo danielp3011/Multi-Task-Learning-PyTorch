@@ -229,7 +229,7 @@ def save_model_predictions(p, val_loader, model, feature_extraction_type, save_n
 
         for task in tasks:
             if (feature_extraction_type == "scales" and p['setup'] == 'multi_task'): 
-                results_path = "/home/data2/yd/results_yd/mtlpt/" + p['val_db_name'] + "/" + p["backbone"] + "/" + p["model"] +"/"+ save_name + "/feature_maps/" + str(downsample_size[0])+"-"+str(downsample_size[1]) + '/' + feature_extraction_type
+                results_path = "/home/data2/yd/results_yd/mtlpt/" + p['val_db_name'] + "/" + p["backbone"] + "/" + p["model"] +"/"+ save_name + "/feature_maps/" + str(downsample_size[0])+"-"+str(downsample_size[1])  # + '/' + feature_extraction_type
                 
                 for scale in output['deep_supervision'].keys():
                     # generating output
